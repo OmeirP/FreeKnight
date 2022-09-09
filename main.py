@@ -38,7 +38,7 @@ class playerClass:
             img = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + ".png")).convert()            
             self.imgsList.append(img)
             
-            self.firstImg = self.images[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
+            self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
             
             self.rect = self.firstImg.get_rect()
 
@@ -63,6 +63,13 @@ background = pygame.transform.scale(background, (infoObject.current_w, infoObjec
 
 gameDisplayRect=gameDisplay.get_rect()
 
+
+player = playerClass()
+player.rect.x = 0
+player.rect.y = 0
+
+playerList = pygame.sprite.Group()
+playerList.add(player)
 
 
 
