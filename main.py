@@ -15,13 +15,16 @@ red = (255, 0, 0)
 blue = (0, 255, 0)
 green = (0, 0, 255)
 
-
-fps=60
-
-runFrames=10
+alpha = ()
 
 
-gaming=True
+fps = 60
+
+runFrames = 10
+playerIdleFrames = 10
+
+
+gaming = True
 
 
 
@@ -43,7 +46,7 @@ class playerClass(pygame.sprite.Sprite):
             
             self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + ".png")).convert()
             self.image = pygame.transform.scale(self.image, (18*playerXScale, 27*playerYScale)).convert()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio
-            self.imgsList.append(self. image)
+            self.imgsList.append(self.image)
             
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
             
@@ -54,7 +57,7 @@ class playerClass(pygame.sprite.Sprite):
         self.xMove += x
         self.yMove += y
         
-    def posUpdate(self):
+    def update(self):
         
         self.rect.x += self.xMove
         self.rect.y += self.yMove
@@ -71,7 +74,51 @@ class playerClass(pygame.sprite.Sprite):
             self.frame += 1
             if self.frame > 9*runFrames:
                 self.frame = 0
-            self.image = pygame.transform.flip((self.imgsList[self.frame//runFrames]), True, False)
+            self.image = pygame.transform.flip((self.imgsList[self.frame//runFrames]), True, False)  #flipping the item in the list that is going to be updated to
+            
+            
+
+class boarClass(pygame.sprite.Sprite):
+    
+    
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+    
+        self.xMove = 0
+        self.yMove = 0
+        self.frame = 0
+        
+        self.imgsList = []
+        for i in range(1, 5):
+            
+            self.image = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest - Update 1.5/Mob/Boar/Idle/SeparatePngs/boarIdle", "boarIdle" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.transform.scale(self.image, (3*boarXScale, 2*boarYScale)).convert_alpha()
+            self.imgsList.append(self. image)
+            
+            self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
+            
+            self.rect = self.firstImg.get_rect()
+    
+    
+    def move(self, x, y):
+        
+        self.xMove += x
+        self.yMove += y
+        
+    def update(self):
+        
+        self.rect.x += self.xMove
+        self.rect.y += self.yMove
+        
+        
+        if self.xMove == 0:  # standing still
+            self.frame += 1
+            if self.frame > 3*runFrames: 
+                self.frame = 0
+            self.image = self.imgsList[self.frame//runFrames]
+
+
+            
             
         
 
@@ -98,20 +145,33 @@ background = pygame.transform.scale(background, (infoObject.current_w, infoObjec
 playerXScale = infoObject.current_w//80
 playerYScale = infoObject.current_h//120
 
+boarXScale = infoObject.current_w//48
+boarYScale = infoObject.current_h//32
+
 gameDisplayRect=gameDisplay.get_rect()
 
 
 player = playerClass()
-player.rect.x = 0
-player.rect.y = 0
+
+#player.rect.x = 200
+#player.rect.y = 1000
+
+player.rect.x = infoObject.current_w*0.08
+player.rect.y = infoObject.current_h*0.6
+
 
 playerList = pygame.sprite.Group()
 playerList.add(player)
 
 runXChange=5
 
+boar = boarClass()
 
+boar.rect.x = infoObject.current_w*0.6
+boar.rect.y = infoObject.current_h*0.6
 
+enemyList = pygame.sprite.Group()
+enemyList.add(boar)
 
 
 ###########game loop
@@ -163,8 +223,11 @@ while gaming:
     
     gameDisplay.blit(background, gameDisplayRect)
     
-    player.posUpdate()
+    player.update()
     playerList.draw(gameDisplay)
+    
+    boar.update()
+    enemyList.draw(gameDisplay)
     
     
     pygame.display.update()
