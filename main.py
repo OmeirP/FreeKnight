@@ -86,7 +86,7 @@ class playerClass(pygame.sprite.Sprite):
         
         for enemy in dmgList:
             self.health -= 1
-            print(self.health)
+            print("self.health", self.health)
             
         
             
