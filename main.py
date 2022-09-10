@@ -1,5 +1,6 @@
 from distutils.spawn import spawn
 from re import X
+from turtle import right
 import pygame
 import sys
 import os
@@ -25,6 +26,8 @@ fps = 60
 runFrames = 10
 playerIdleFrames = 10
 
+boarRunFrames = 6
+
 
 gaming = True
 
@@ -42,6 +45,7 @@ class playerClass(pygame.sprite.Sprite):
         self.xMove = 0
         self.yMove = 0
         self.frame = 0
+        self.health = 20
         
         self.imgsList = []
         for i in range(1, 11):
@@ -78,6 +82,14 @@ class playerClass(pygame.sprite.Sprite):
                 self.frame = 0
             self.image = pygame.transform.flip((self.imgsList[self.frame//runFrames]), True, False)  #flipping the item in the list that is going to be updated to
             
+        dmgList = pygame.sprite.spritecollide(self, enemyList, False)  # False is for dokill, go on pygame doc for an explanation
+        
+        for enemy in dmgList:
+            self.health -= 1
+            print(self.health)
+            
+        
+            
             
 
 class boarClass(pygame.sprite.Sprite):
@@ -86,14 +98,17 @@ class boarClass(pygame.sprite.Sprite):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
     
-        self.xMove = 0
-        self.yMove = 0
         self.frame = 0
+        self.xMove = 2
+        self.yMove = 0
+        self.wait = 5000
+        self.direction = "right"
+        
         
         self.imgsList = []
-        for i in range(1, 5):
+        for i in range(1, 7):
             
-            self.image = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest - Update 1.5/Mob/Boar/Idle/SeparatePngs/boarIdle", "boarIdle" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest - Update 1.5/Mob/Boar/Run/SeparatePngs/boarRun", "boarRun" + str(i) + ".png")).convert_alpha()
             self.image = pygame.transform.scale(self.image, (3*boarXScale, 2*boarYScale)).convert_alpha()
             self.imgsList.append(self. image)
             
@@ -103,24 +118,46 @@ class boarClass(pygame.sprite.Sprite):
             
         self.rect.x = x
         self.rect.y = y
-    
-    
-    def move(self, x, y):
         
-        self.xMove += x
-        self.yMove += y
+        self.stepCount = 0
+    
+    
+    def move(self):
+
+        
+        distance = 240
+        #speed = 2
+        
+
+        if self.stepCount >= 0 and self.stepCount <= distance:
+            self.direction = "right"
+            self.rect.x += self.xMove
+        elif self.stepCount >= distance and self.stepCount <= distance*2:
+            self.direction = "left"
+            self.rect.x -= self.xMove
+        else:
+            self.stepCount = 0
+        
+        self.stepCount += 1
+        
         
     def update(self):
         
-        self.rect.x += self.xMove
-        self.rect.y += self.yMove
+        #self.rect.x += self.xMove
+        #self.rect.y += self.yMove
         
         
-        if self.xMove == 0:  # standing still
+        if self.direction == "right":  # standing still
             self.frame += 1
-            if self.frame > 3*runFrames: 
+            if self.frame > 5*boarRunFrames: 
                 self.frame = 0
-            self.image = self.imgsList[self.frame//runFrames]
+            self.image = pygame.transform.flip((self.imgsList[self.frame//boarRunFrames]), True, False)
+        
+        if self.direction == "left":  # standing still
+            self.frame += 1
+            if self.frame > 5*boarRunFrames: 
+                self.frame = 0
+            self.image = self.imgsList[self.frame//boarRunFrames]
 
 
 
@@ -243,6 +280,8 @@ while gaming:
     
     
     for i in enemyList:
+
+        i.move()
         i.update()    
         
         
