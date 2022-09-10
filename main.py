@@ -1,3 +1,5 @@
+from distutils.spawn import spawn
+from re import X
 import pygame
 import sys
 import os
@@ -81,7 +83,7 @@ class playerClass(pygame.sprite.Sprite):
 class boarClass(pygame.sprite.Sprite):
     
     
-    def __init__(self):
+    def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
     
         self.xMove = 0
@@ -98,6 +100,9 @@ class boarClass(pygame.sprite.Sprite):
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
             
             self.rect = self.firstImg.get_rect()
+            
+        self.rect.x = x
+        self.rect.y = y
     
     
     def move(self, x, y):
@@ -118,7 +123,16 @@ class boarClass(pygame.sprite.Sprite):
             self.image = self.imgsList[self.frame//runFrames]
 
 
-            
+
+
+class level:
+    def mobSpawn(lvl, spawnPos):
+        if lvl == 1:
+            boar = boarClass(spawnPos[0], spawnPos[1])
+            enemyList = pygame.sprite.Group()
+            enemyList.add(boar)
+        
+        return enemyList
             
         
 
@@ -163,15 +177,14 @@ player.rect.y = infoObject.current_h*0.6
 playerList = pygame.sprite.Group()
 playerList.add(player)
 
-runXChange=5
+runXChange = 5
 
-boar = boarClass()
 
-boar.rect.x = infoObject.current_w*0.6
-boar.rect.y = infoObject.current_h*0.6
+spawnPos = [1200, 1100]
 
-enemyList = pygame.sprite.Group()
-enemyList.add(boar)
+enemyList = level.mobSpawn(1, spawnPos)
+
+
 
 
 ###########game loop
@@ -226,7 +239,13 @@ while gaming:
     player.update()
     playerList.draw(gameDisplay)
     
-    boar.update()
+    #boar.update()
+    
+    
+    for i in enemyList:
+        i.update()    
+        
+        
     enemyList.draw(gameDisplay)
     
     
