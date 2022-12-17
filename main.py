@@ -92,7 +92,7 @@ class playerClass(pygame.sprite.Sprite):
             
             
 
-class boarClass(pygame.sprite.Sprite):
+class enemy(pygame.sprite.Sprite):
     
     
     def __init__(self, x, y):
@@ -101,7 +101,6 @@ class boarClass(pygame.sprite.Sprite):
         self.frame = 0
         self.xMove = 2
         self.yMove = 0
-        self.wait = 5000
         self.direction = "right"
         
         
@@ -158,6 +157,10 @@ class boarClass(pygame.sprite.Sprite):
             if self.frame > 5*boarRunFrames: 
                 self.frame = 0
             self.image = self.imgsList[self.frame//boarRunFrames]
+            
+            
+            
+            
 
 
 
