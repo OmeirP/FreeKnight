@@ -72,7 +72,7 @@ class playerClass(pygame.sprite.Sprite):
         if self.xMove > 0:  #more than 0 because future x pos will increase if moving right
             self.frame += 1
             if self.frame > 9*runFrames:  # 9 because thats how many other frames there are
-                self.frame = 0
+                self.frame = 0  ## reset animation
             self.image = self.imgsList[self.frame//runFrames]
 
 
@@ -147,13 +147,12 @@ class boarClass(pygame.sprite.Sprite):
         #self.rect.y += self.yMove
         
         
-        if self.direction == "right":  # standing still
+        if self.direction == "right":
             self.frame += 1
             if self.frame > 5*boarRunFrames: 
                 self.frame = 0
             self.image = pygame.transform.flip((self.imgsList[self.frame//boarRunFrames]), True, False)
-        
-        if self.direction == "left":  # standing still
+        if self.direction == "left":
             self.frame += 1
             if self.frame > 5*boarRunFrames: 
                 self.frame = 0
