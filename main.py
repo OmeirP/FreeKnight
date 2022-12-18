@@ -50,7 +50,7 @@ class playerClass(pygame.sprite.Sprite):
         self.imgsList = []
         for i in range(1, 11):
             
-            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + ".png")).convert()
+            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + "old.png")).convert()
             self.image = pygame.transform.scale(self.image, (18*playerXScale, 27*playerYScale)).convert()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio
             self.imgsList.append(self.image)
             
