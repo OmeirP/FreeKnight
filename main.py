@@ -82,17 +82,18 @@ class playerClass(pygame.sprite.Sprite):
                 self.frame = 0
             self.image = pygame.transform.flip((self.imgsList[self.frame//runFrames]), True, False)  #flipping the item in the list that is going to be updated to
             
-        dmgList = pygame.sprite.spritecollide(self, enemyList, False)  # False is for dokill, go on pygame doc for an explanation
+        dmgList = pygame.sprite.spritecollide(self, enemyList, False, pygame.sprite.collide_rect)  # False is for dokill, go on pygame doc for an explanation
         
         for enemy in dmgList:
             self.health -= 1
             print("self.health", self.health)
             
+            
         
             
             
 
-class boarClass(pygame.sprite.Sprite):
+class EnemyClass(pygame.sprite.Sprite):
     
     
     def __init__(self, x, y):
@@ -129,7 +130,7 @@ class boarClass(pygame.sprite.Sprite):
         #speed = 2
         
 
-        if self.stepCount >= 0 and self.stepCount <= distance:
+        if self.stepCount >= 0 and self.stepCount <= distance:     #stepCount is basically distance travelled, no direction. half steps taken one way. other half taken other way. step count resets to represent being at starting point. Infinite if-else loop
             self.direction = "right"
             self.rect.x += self.xMove
         elif self.stepCount >= distance and self.stepCount <= distance*2:
@@ -164,7 +165,7 @@ class boarClass(pygame.sprite.Sprite):
 class level:
     def mobSpawn(lvl, spawnPos):
         if lvl == 1:
-            boar = boarClass(spawnPos[0], spawnPos[1])
+            boar = EnemyClass(spawnPos[0], spawnPos[1])
             enemyList = pygame.sprite.Group()
             enemyList.add(boar)
         
@@ -281,7 +282,8 @@ while gaming:
     for i in enemyList:
 
         i.move()
-        i.update()    
+        i.update()
+        print(player.rect.width)
         
         
     enemyList.draw(gameDisplay)
