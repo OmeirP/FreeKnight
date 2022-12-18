@@ -50,8 +50,8 @@ class playerClass(pygame.sprite.Sprite):
         self.imgsList = []
         for i in range(1, 11):
             
-            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + ".png")).convert()
-            self.image = pygame.transform.scale(self.image, (18*playerXScale, 27*playerYScale)).convert()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio
+            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.transform.scale(self.image, (2*playerXScale, 3*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
             self.imgsList.append(self.image)
             
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
@@ -72,7 +72,7 @@ class playerClass(pygame.sprite.Sprite):
         if self.xMove > 0:  #more than 0 because future x pos will increase if moving right
             self.frame += 1
             if self.frame > 9*runFrames:  # 9 because thats how many other frames there are
-                self.frame = 0
+                self.frame = 0  ## reset animation
             self.image = self.imgsList[self.frame//runFrames]
 
 
@@ -82,17 +82,18 @@ class playerClass(pygame.sprite.Sprite):
                 self.frame = 0
             self.image = pygame.transform.flip((self.imgsList[self.frame//runFrames]), True, False)  #flipping the item in the list that is going to be updated to
             
-        dmgList = pygame.sprite.spritecollide(self, enemyList, False)  # False is for dokill, go on pygame doc for an explanation
+        dmgList = pygame.sprite.spritecollide(self, enemyList, False, pygame.sprite.collide_rect)  # False is for dokill, go on pygame doc for an explanation
         
         for enemy in dmgList:
             self.health -= 1
             print("self.health", self.health)
             
+
         
             
             
 
-class boarClass(pygame.sprite.Sprite):
+class EnemyClass(pygame.sprite.Sprite):
     
     
     def __init__(self, x, y):
@@ -129,7 +130,7 @@ class boarClass(pygame.sprite.Sprite):
         #speed = 2
         
 
-        if self.stepCount >= 0 and self.stepCount <= distance:
+        if self.stepCount >= 0 and self.stepCount <= distance:     #stepCount is basically distance travelled, no direction. half steps taken one way. other half taken other way. step count resets to represent being at starting point. Infinite if-else loop
             self.direction = "right"
             self.rect.x += self.xMove
         elif self.stepCount >= distance and self.stepCount <= distance*2:
@@ -147,13 +148,12 @@ class boarClass(pygame.sprite.Sprite):
         #self.rect.y += self.yMove
         
         
-        if self.direction == "right":  # standing still
+        if self.direction == "right":
             self.frame += 1
             if self.frame > 5*boarRunFrames: 
                 self.frame = 0
             self.image = pygame.transform.flip((self.imgsList[self.frame//boarRunFrames]), True, False)
-        
-        if self.direction == "left":  # standing still
+        if self.direction == "left":
             self.frame += 1
             if self.frame > 5*boarRunFrames: 
                 self.frame = 0
@@ -165,7 +165,7 @@ class boarClass(pygame.sprite.Sprite):
 class level:
     def mobSpawn(lvl, spawnPos):
         if lvl == 1:
-            boar = boarClass(spawnPos[0], spawnPos[1])
+            boar = EnemyClass(spawnPos[0], spawnPos[1])
             enemyList = pygame.sprite.Group()
             enemyList.add(boar)
         
@@ -193,8 +193,12 @@ background = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest -
 
 background = pygame.transform.scale(background, (infoObject.current_w, infoObject.current_h))
 
-playerXScale = infoObject.current_w//80
-playerYScale = infoObject.current_h//120
+playerXScale = infoObject.current_w//42
+playerYScale = infoObject.current_h//28
+
+#playerXScale = infoObject.current_w//80
+#playerYScale = infoObject.current_h//120
+
 
 boarXScale = infoObject.current_w//48
 boarYScale = infoObject.current_h//32
@@ -207,9 +211,12 @@ player = playerClass()
 #player.rect.x = 200
 #player.rect.y = 1000
 
-player.rect.x = infoObject.current_w*0.08
-player.rect.y = infoObject.current_h*0.6
+# player.rect.x = infoObject.current_w*0.08
+# player.rect.y = infoObject.current_h*0.6
 
+
+player.rect.x = infoObject.current_w*0.08
+player.rect.y = infoObject.current_h*0.7
 
 playerList = pygame.sprite.Group()
 playerList.add(player)
@@ -218,6 +225,8 @@ runXChange = 5
 
 
 spawnPos = [1200, 1100]
+
+#spawnPos = [infoObject.current_w*0.08, infoObject.current_h*0.6]
 
 enemyList = level.mobSpawn(1, spawnPos)
 
@@ -282,7 +291,8 @@ while gaming:
     for i in enemyList:
 
         i.move()
-        i.update()    
+        i.update()
+        print(player.rect.width)
         
         
     enemyList.draw(gameDisplay)
