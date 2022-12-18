@@ -50,8 +50,8 @@ class playerClass(pygame.sprite.Sprite):
         self.imgsList = []
         for i in range(1, 11):
             
-            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + "old.png")).convert()
-            self.image = pygame.transform.scale(self.image, (18*playerXScale, 27*playerYScale)).convert()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio
+            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.transform.scale(self.image, (2*playerXScale, 3*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
             self.imgsList.append(self.image)
             
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
@@ -88,7 +88,7 @@ class playerClass(pygame.sprite.Sprite):
             self.health -= 1
             print("self.health", self.health)
             
-            
+
         
             
             
@@ -193,8 +193,12 @@ background = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest -
 
 background = pygame.transform.scale(background, (infoObject.current_w, infoObject.current_h))
 
-playerXScale = infoObject.current_w//80
-playerYScale = infoObject.current_h//120
+playerXScale = infoObject.current_w//42
+playerYScale = infoObject.current_h//28
+
+#playerXScale = infoObject.current_w//80
+#playerYScale = infoObject.current_h//120
+
 
 boarXScale = infoObject.current_w//48
 boarYScale = infoObject.current_h//32
@@ -207,9 +211,12 @@ player = playerClass()
 #player.rect.x = 200
 #player.rect.y = 1000
 
-player.rect.x = infoObject.current_w*0.08
-player.rect.y = infoObject.current_h*0.6
+# player.rect.x = infoObject.current_w*0.08
+# player.rect.y = infoObject.current_h*0.6
 
+
+player.rect.x = infoObject.current_w*0.08
+player.rect.y = infoObject.current_h*0.7
 
 playerList = pygame.sprite.Group()
 playerList.add(player)
@@ -218,6 +225,8 @@ runXChange = 5
 
 
 spawnPos = [1200, 1100]
+
+#spawnPos = [infoObject.current_w*0.08, infoObject.current_h*0.6]
 
 enemyList = level.mobSpawn(1, spawnPos)
 
