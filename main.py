@@ -160,7 +160,14 @@ class EnemyClass(pygame.sprite.Sprite):
             self.image = self.imgsList[self.frame//boarRunFrames]
 
 
-
+class Platform(pygame.sprite.Sprite):
+    def __init__(self, xpos, ypos, imgWidth, imgHeight, imgFile):
+        pygame.sprite.Sprite.__init__(self)
+        self.rect = self.image.get_rect()
+        self.rect.x = xpos
+        self.rect.y = ypos
+        self.image = pygame.image.load(os.path.join('images', imgFile)).convert_alpha()
+        
 
 class level: 
     def mobSpawn(lvl, spawnPos):
