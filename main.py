@@ -195,13 +195,17 @@ class Level:
         if lvl == 1:
             leftGrnd = Platform(32+gPos[i], infoObject.current_h-tileHeight*3, tileWidth, tileHeight, "ground000.png")
             leftSub1Grnd = Platform(32+gPos[i], infoObject.current_h-tileHeight*2, tileWidth, tileHeight, "ground008.png")
+            leftSub2Grnd = Platform(32+gPos[i], infoObject.current_h-tileHeight, tileWidth, tileHeight, "ground008.png")
             grndList.add(leftGrnd)
             grndList.add(leftSub1Grnd)
+            grndList.add(leftSub2Grnd)
             while i < len(gPos):    # Checks against how many ground tiles will be.
                 topGrnd = Platform(64+gPos[i], infoObject.current_h-tileHeight*3, tileWidth, tileHeight, "ground001.png")
                 sub1Grnd = Platform(64+gPos[i], infoObject.current_h-tileHeight*2, tileWidth, tileHeight, "ground009.png")
+                sub2Grnd = Platform(64+gPos[i], infoObject.current_h-tileHeight, tileWidth, tileHeight, "ground009.png")
                 grndList.add(topGrnd)
                 grndList.add(sub1Grnd)
+                grndList.add(sub2Grnd)
                 
                 i+=1
                 
