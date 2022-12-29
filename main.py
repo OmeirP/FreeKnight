@@ -162,7 +162,23 @@ class EnemyClass(pygame.sprite.Sprite):
 
 
 
-class level: 
+
+
+class Platform(pygame.sprite.Sprite):
+    def __init__(self, xpos, ypos, imgWidth, imgHeight, imgFile):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(os.path.join('groundpngs', imgFile)).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (64,64))
+        self.rect = self.image.get_rect()
+        self.rect.x = xpos
+        self.rect.y = ypos
+
+
+
+
+        
+
+class Level: 
     def mobSpawn(lvl, spawnPos):
         if lvl == 1:
             boar = EnemyClass(spawnPos[0], spawnPos[1])
@@ -170,9 +186,58 @@ class level:
             enemyList.add(boar)
         
         return enemyList
-            
-        
+    
+    
+    
 
+    def ground(lvl, gPos, tileWidth, tileHeight): # Attributes of where to put ground.
+        grndList = pygame.sprite.Group()
+        placed = 0
+        if lvl == 1:
+            leftGrnd = Platform(tileWidth + gPos[placed], infoObject.current_h-tileHeight*3, tileWidth, tileHeight, "ground000.png")
+            leftSub1Grnd = Platform(tileWidth + gPos[placed], infoObject.current_h-tileHeight*2, tileWidth, tileHeight, "ground008.png")
+            leftSub2Grnd = Platform(tileWidth + gPos[placed], infoObject.current_h-tileHeight, tileWidth, tileHeight, "ground008.png")
+            platsToAdd = [leftGrnd, leftSub1Grnd, leftSub2Grnd]
+            for plat in platsToAdd:
+                grndList.add(plat)
+            while placed < len(gPos):    # Checks against how many ground tiles will be.
+                topGrnd = Platform(tileWidth*2 + gPos[placed], infoObject.current_h-tileHeight*3, tileWidth, tileHeight, "ground001.png")
+                sub1Grnd = Platform(tileWidth*2 + gPos[placed], infoObject.current_h-tileHeight*2, tileWidth, tileHeight, "ground009.png")
+                sub2Grnd = Platform(tileWidth*2 + gPos[placed], infoObject.current_h-tileHeight, tileWidth, tileHeight, "ground009.png")
+                platsToAdd = [topGrnd, sub1Grnd, sub2Grnd]
+                for plat in platsToAdd:
+                    grndList.add(plat)
+    
+                placed+=1            
+        return grndList
+    
+    def platform(lvl, tileWidth, tileHeight):
+        pltList = pygame.sprite.Group()
+        levelheight = infoObject.current_h
+        pPos = []
+        platsPlaced = 0
+        if lvl == 1:
+            pPos.append((200, levelheight - (tileWidth*10), 8))  # tuple for individual positions.  Format: (x, y, length). Length is number of tiles for platform to consist of.   Have multiple of these lines for how many platforms wanted.
+            
+            while platsPlaced < len(pPos):    # number of elements in pPos means that platforms in level
+                tilesPlaced = 0
+                while tilesPlaced <= pPos[platsPlaced][2]:
+                    plat = Platform((pPos[platsPlaced][0] + (tilesPlaced*tileWidth)), pPos[platsPlaced][1], tileWidth, tileHeight, "ground001.png")
+                    pltList.add(plat)
+                    tilesPlaced += 1
+                platsPlaced += 1
+                
+        return pltList
+        
+        
+        
+        
+"""
+    def platform(lvl):
+        platList = pygame.sprite.Group()
+        if lvl == 1:
+            #plat = Platform(200, infoObject.current_h) continue this later
+"""
 
 
 
@@ -228,8 +293,25 @@ spawnPos = [1200, 1100]
 
 #spawnPos = [infoObject.current_w*0.08, infoObject.current_h*0.6]
 
-enemyList = level.mobSpawn(1, spawnPos)
+enemyList = Level.mobSpawn(1, spawnPos)
 
+
+grndTilPos = []
+tileWidth = 64
+tileHeight = 64
+
+
+levelWidth = infoObject.current_w   #   Change this depending on level.
+
+
+i = 0
+while i < ((levelWidth/tileWidth) + tileWidth):   # Adds how many ground tiles to do for ground based on screenSize.
+    grndTilPos.append(tileWidth*i)
+    i+=1
+
+grndList = Level.ground(1, grndTilPos, tileWidth, tileHeight)
+
+pltList = Level.platform(1, tileWidth, tileHeight)
 
 
 
@@ -292,10 +374,11 @@ while gaming:
 
         i.move()
         i.update()
-        print(player.rect.width)
         
         
     enemyList.draw(gameDisplay)
+    grndList.draw(gameDisplay)
+    pltList.draw(gameDisplay)
     
     
     pygame.display.update()
