@@ -58,10 +58,28 @@ class playerClass(pygame.sprite.Sprite):
             
             self.rect = self.firstImg.get_rect()
     
+    
+    
+    def gravity(self):
+        self.yMove += 0.6 # Player fall speed. Always be falling because gravity always active.
+        
+        #   Check if player fell out of bounds
+        if self.rect.y > levelHeight and self.yMove > 0:
+            self.yMove = 0
+            self.rect.y = infoObject.current_h-tileWidth*6
+        print(self.rect.y)
+        
+        
+            
+        
+        
+        
+    
     def move(self, x, y):
         
         self.xMove += x
         self.yMove += y
+        
         
     def update(self):
         
@@ -123,6 +141,21 @@ class EnemyClass(pygame.sprite.Sprite):
         self.stepCount = 0
     
     
+    
+    
+    def gravity(self):
+        self.yMove += 2
+        
+        #   Check if player fell out of bounds
+        if self.rect.y > levelHeight and self.yMove > 0:
+            self.yMove = 0
+            self.rect.y = infoObject.current_h-tileWidth*6
+        print(self.rect.y)
+        
+        
+        
+        
+    
     def move(self):
 
         
@@ -145,7 +178,7 @@ class EnemyClass(pygame.sprite.Sprite):
     def update(self):
         
         #self.rect.x += self.xMove
-        #self.rect.y += self.yMove
+        self.rect.y += self.yMove
         
         
         if self.direction == "right":
@@ -302,6 +335,7 @@ tileHeight = 64
 
 
 levelWidth = infoObject.current_w   #   Change this depending on level.
+levelHeight = infoObject.current_h+infoObject.current_h*0.1     # Screen Height + 10% of screen height so can fall a bit out and not die.
 
 
 i = 0
@@ -364,6 +398,9 @@ while gaming:
     
     gameDisplay.blit(background, gameDisplayRect)
     
+    
+    player.gravity()
+    
     player.update()
     playerList.draw(gameDisplay)
     
@@ -373,6 +410,7 @@ while gaming:
     for i in enemyList:
 
         i.move()
+        i.gravity()
         i.update()
         
         
