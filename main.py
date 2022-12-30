@@ -61,25 +61,22 @@ class playerClass(pygame.sprite.Sprite):
     
     
     def gravity(self):
-        self.yMove += 0.6 # Player fall speed. Always be falling because gravity always active.
+        self.yMove += 0.6 # Player fall speed. Always be falling because gravity always active. Change 0.6 to screen size proportion.
         
-        #   Check if player fell out of bounds
-        if self.rect.y > levelHeight and self.yMove > 0:
-            self.yMove = 0
-            self.rect.y = infoObject.current_h-tileWidth*6
-        print(self.rect.y)
-        
-        
-            
-        
-        
-        
+
+                
     
     def move(self, x, y):
         
         self.xMove += x
         self.yMove += y
-        
+
+
+    def jump(self):
+        if self.jumpState == False:
+            self.fallState = False
+            self.jumpState = True
+
         
     def update(self):
         
@@ -105,6 +102,24 @@ class playerClass(pygame.sprite.Sprite):
         for enemy in dmgList:
             self.health -= 1
             print("self.health", self.health)
+            
+
+        grndHitList = pygame.sprite.spritecollide(self, grndList, False)    # spritecollide returns a list
+        
+        for grnd in grndHitList:
+            self.yMove = 0
+            self.rect.bottom = grnd.rect.top
+            self.jumpState = False  # Finish jumping.
+            
+            
+        #   Check if player fell out of bounds
+        if self.rect.y > levelHeight and self.yMove > 0:
+            self.health -= 5
+            print(self.health)
+            self.rect.x = infoObject.current_w*0.08
+            self.rect.y = infoObject.current_h-tileWidth*6  # Instead, die and go to place on screen
+            
+        
             
 
         
@@ -149,8 +164,7 @@ class EnemyClass(pygame.sprite.Sprite):
         #   Check if player fell out of bounds
         if self.rect.y > levelHeight and self.yMove > 0:
             self.yMove = 0
-            self.rect.y = infoObject.current_h-tileWidth*6
-        print(self.rect.y)
+            self.rect.y = infoObject.current_h-tileWidth*6  # should reach floor before this. Do something else.
         
         
         
