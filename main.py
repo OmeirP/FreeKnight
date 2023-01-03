@@ -46,6 +46,8 @@ class playerClass(pygame.sprite.Sprite):
         self.yMove = 0
         self.frame = 0
         self.health = 20
+        self.jumpState = False
+        self.fallState = True
         
         self.imgsList = []
         for i in range(1, 11):
@@ -73,9 +75,11 @@ class playerClass(pygame.sprite.Sprite):
 
 
     def jump(self):
-        if self.jumpState == False:
+        if self.jumpState == False: # if not already jumping
             self.fallState = False
             self.jumpState = True
+        else:
+            print("fail")
 
         
     def update(self):
@@ -104,13 +108,51 @@ class playerClass(pygame.sprite.Sprite):
             print("self.health", self.health)
             
 
-        grndHitList = pygame.sprite.spritecollide(self, grndList, False)    # spritecollide returns a list
+        grndHitList = pygame.sprite.spritecollide(self, grndList, False)    # spritecollide returns a list of sprites in the group that intersect with the player.
         
         for grnd in grndHitList:
             self.yMove = 0
             self.rect.bottom = grnd.rect.top
             self.jumpState = False  # Finish jumping.
+        
+        
+        pltHitList = pygame.sprite.spritecollide(self, pltList, False)
+    
+    
+    
+        for plat in pltHitList:
+            # This part same as before for ground.
+            self.yMove = 0
+            #self.jumpState = False
             
+            # If player is under platform when colliding.
+            if self.rect.bottom <= plat.rect.bottom:    # If the player is higher than the platform when colliding. Make player sprite sit on top of platform sprite.
+                self.rect.bottom = plat.rect.top
+                self.jumpState = False
+                
+            #elif self.rect.top > plat.rect.bottom:      # If player is lower than platform.
+            #    if abs(plat.rect.right - self.rect.left) < abs(plat.rect.left - self.rect.right):
+            #        self.rect.left = plat.rect.right
+            #    else:
+            #        self.rect.right = plat.rect.left
+            #elif self.rect.right >= plat.rect.left:
+            #    self.rect.right = plat.rect.left
+            
+            elif self.rect.bottom > plat.rect.bottom:     # If player is below platform (when jumping)
+                self.yMove += 0.6   # Else normal fall.
+            
+                if (self.rect.left < plat.rect.right and abs(plat.rect.right-self.rect.left) < abs(plat.rect.left-self.rect.right)) and self.rect.bottom > plat.rect.bottom:
+                    self.rect.left = plat.rect.right
+
+                elif (self.rect.left < plat.rect.right and abs(plat.rect.right-self.rect.left) > abs(plat.rect.left-self.rect.right)) and self.rect.bottom > plat.rect.bottom:
+                    self.rect.right = plat.rect.left
+                    print("here")
+                    print(self.rect.left, plat.rect.right)
+                
+        
+    
+
+        
             
         #   Check if player fell out of bounds
         if self.rect.y > levelHeight and self.yMove > 0:
@@ -119,6 +161,16 @@ class playerClass(pygame.sprite.Sprite):
             self.rect.x = infoObject.current_w*0.08
             self.rect.y = infoObject.current_h-tileWidth*6  # Instead, die and go to place on screen
             
+            
+        # The jump part, switches to falling at the end.
+        if self.jumpState == True and self.fallState == False:
+            self.yMove -= 20    # Change this to be proportional to screen size.
+            self.fallState = True
+            #print("done")
+            
+        #print(self.fallState, self.jumpState)
+        
+    
         
             
 
@@ -264,7 +316,7 @@ class Level:
         pPos = []
         platsPlaced = 0
         if lvl == 1:
-            pPos.append((200, levelheight - (tileWidth*10), 8))  # tuple for individual positions.  Format: (x, y, length). Length is number of tiles for platform to consist of.   Have multiple of these lines for how many platforms wanted.
+            pPos.append((200, levelheight - (tileWidth*7.5), 8))  # tuple for individual positions.  Format: (x, y, length). Length is number of tiles for platform to consist of.   Have multiple of these lines for how many platforms wanted.
             
             while platsPlaced < len(pPos):    # number of elements in pPos means that platforms in level
                 tilesPlaced = 0
@@ -333,7 +385,7 @@ player.rect.y = infoObject.current_h*0.7
 playerList = pygame.sprite.Group()
 playerList.add(player)
 
-runXChange = 5
+runXChange = 10
 
 
 spawnPos = [1200, 1100]
@@ -398,7 +450,7 @@ while gaming:
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 player.move(-runXChange, 0)
             if event.key == pygame.K_UP or event.key == pygame.K_w or event.key == pygame.K_SPACE:
-                print("jump key down")
+                player.jump()
             
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
