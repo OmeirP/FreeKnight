@@ -348,14 +348,6 @@ class Level:
         return pltList, startPos
         
         
-        
-        
-"""
-    def platform(lvl):
-        platList = pygame.sprite.Group()
-        if lvl == 1:
-            #plat = Platform(200, infoObject.current_h) continue this later
-"""
 
 
 
@@ -515,18 +507,6 @@ while gaming:
                 player.move(0, 0, "CONTROLLER")
             
                 
-    
-    """            
-        if event.type == pygame.JOYAXISMOTION:
-    
-            print(event)
-            if event.axis == 1: #    Left stick horizontal and vertical have axis 0 and 1, which are less than 2.
-                if event.value < 0:
-                    player.move(runXChange, 0)
-                    print("noom")
-                if event.value > 0:
-                    player.move(-runXChange, 0)    
-    """
     
     gameDisplay.blit(background, gameDisplayRect)
     
