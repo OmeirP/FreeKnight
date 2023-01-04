@@ -314,8 +314,10 @@ class Level:
             leftSub1Grnd = Platform(tileWidth + gPos[placed], infoObject.current_h-tileHeight*2, tileWidth, tileHeight, "ground008.png")
             leftSub2Grnd = Platform(tileWidth + gPos[placed], infoObject.current_h-tileHeight, tileWidth, tileHeight, "ground008.png")
             platsToAdd = [leftGrnd, leftSub1Grnd, leftSub2Grnd]
+            
             for plat in platsToAdd:
                 grndList.add(plat)
+                
             while placed < len(gPos):    # Checks against how many ground tiles will be.
                 topGrnd = Platform(tileWidth*2 + gPos[placed], infoObject.current_h-tileHeight*3, tileWidth, tileHeight, "ground001.png")
                 sub1Grnd = Platform(tileWidth*2 + gPos[placed], infoObject.current_h-tileHeight*2, tileWidth, tileHeight, "ground009.png")
@@ -326,6 +328,9 @@ class Level:
     
                 placed+=1            
         return grndList
+    
+    
+    
     
     def platform(lvl, tileWidth, tileHeight):
         pltList = pygame.sprite.Group()
