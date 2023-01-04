@@ -68,11 +68,14 @@ class playerClass(pygame.sprite.Sprite):
 
                 
     
-    def move(self, x, y):
+    def move(self, x, y, device):
         
-        self.xMove += x
+        if device == "KEYBOARD":
+            self.xMove += x
+        elif device == "CONTROLLER":
+            self.xMove = x
+            
         self.yMove += y
-
 
     def jump(self):
         if self.jumpState == False: # if not already jumping
@@ -362,7 +365,25 @@ class Level:
 
 clock=pygame.time.Clock()
 
-pygame.init()
+
+
+pygame.init()   # Also calls pygame.joystick.init()
+
+
+
+# Joystick code.
+
+print("Joystick module initialised?", pygame.joystick.get_init())
+
+
+if not (pygame.joystick.get_count() >= 1):
+    print("No controller connected.")
+else:
+    print("Controller found.")
+    xController = pygame.joystick.Joystick(0)
+    xController.init()
+
+
 
 infoObject = pygame.display.Info()
 
@@ -462,21 +483,50 @@ while gaming:
     
     # movement code
             if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                player.move(runXChange, 0)
+                player.move(runXChange, 0, "KEYBOARD")
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                player.move(-runXChange, 0)
+                player.move(-runXChange, 0, "KEYBOARD")
             if event.key == pygame.K_UP or event.key == pygame.K_w or event.key == pygame.K_SPACE:
                 player.jump()
             
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-                player.move(-runXChange, 0)
+                player.move(-runXChange, 0, "KEYBOARD")
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
-                player.move(runXChange, 0)
+                player.move(runXChange, 0, "KEYBOARD")
                 
 
+
+        
+        if event.type == pygame.JOYBUTTONDOWN:
+            if event.button == 0:
+                player.jump()
+        
+        
+        if event.type == pygame.JOYAXISMOTION:
+            xAxisPos = xController.get_axis(0)
+            print(xController.get_axis(1))
+            if xAxisPos < -0.3:
+                player.move(-runXChange, 0, "CONTROLLER")
+                print("keep moving")
+            elif xAxisPos > 0.3:
+                player.move(runXChange, 0, "CONTROLLER")
+            else:
+                player.move(0, 0, "CONTROLLER")
+            
+                
     
+    """            
+        if event.type == pygame.JOYAXISMOTION:
     
+            print(event)
+            if event.axis == 1: #    Left stick horizontal and vertical have axis 0 and 1, which are less than 2.
+                if event.value < 0:
+                    player.move(runXChange, 0)
+                    print("noom")
+                if event.value > 0:
+                    player.move(-runXChange, 0)    
+    """
     
     gameDisplay.blit(background, gameDisplayRect)
     
