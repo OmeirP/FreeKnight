@@ -46,6 +46,8 @@ class playerClass(pygame.sprite.Sprite):
         self.yMove = 0
         self.frame = 0
         self.health = 20
+        self.jumpState = False
+        self.fallState = True
         
         self.imgsList = []
         for i in range(1, 11):
@@ -61,25 +63,24 @@ class playerClass(pygame.sprite.Sprite):
     
     
     def gravity(self):
-        self.yMove += 0.6 # Player fall speed. Always be falling because gravity always active.
+        self.yMove += 0.6 # Player fall speed. Always be falling because gravity always active. Change 0.6 to screen size proportion.
         
-        #   Check if player fell out of bounds
-        if self.rect.y > levelHeight and self.yMove > 0:
-            self.yMove = 0
-            self.rect.y = infoObject.current_h-tileWidth*6
-        print(self.rect.y)
-        
-        
-            
-        
-        
-        
+
+                
     
     def move(self, x, y):
         
         self.xMove += x
         self.yMove += y
-        
+
+
+    def jump(self):
+        if self.jumpState == False: # if not already jumping
+            self.fallState = False
+            self.jumpState = True
+        #else:
+        #    print("fail")
+
         
     def update(self):
         
@@ -105,6 +106,79 @@ class playerClass(pygame.sprite.Sprite):
         for enemy in dmgList:
             self.health -= 1
             print("self.health", self.health)
+            
+
+        grndHitList = pygame.sprite.spritecollide(self, grndList, False)    # spritecollide returns a list of sprites in the group that intersect with the player.
+        
+        for grnd in grndHitList:
+            self.yMove = 0
+            self.rect.bottom = grnd.rect.top
+            self.jumpState = False  # Finish jumping.
+        
+        
+        pltHitList = pygame.sprite.spritecollide(self, pltList, False)
+        
+        
+    
+        platsNum = len(pltList.sprites())
+        
+        
+        
+        
+        for plat in pltHitList:
+    
+            # This part same as before for ground.
+            self.yMove = 0
+            #self.jumpState = False
+            
+            platformRight = (startPos + 64 * platsNum)
+            # If player is under platform when colliding.
+            if self.rect.bottom <= plat.rect.bottom:    # If the player is higher than the platform when colliding. Make player sprite sit on top of platform sprite.
+                self.rect.bottom = plat.rect.top
+                self.jumpState = False
+
+
+            
+            elif self.rect.bottom > plat.rect.bottom and (self.rect.left > startPos and self.rect.right < platformRight):     # If player is below platform (when jumping) and not outside of it.
+                self.yMove += 0.6   # Else normal fall.
+        
+                
+                
+            
+            else:
+                if (self.rect.left < platformRight and abs(platformRight-self.rect.left) < abs(startPos-self.rect.right)) and self.rect.bottom > plat.rect.bottom:  # If player intersects with right side of platform, keep on right side of platform.
+                    self.rect.left = platformRight
+                    self.yMove += 8
+                    
+
+                elif (self.rect.left < platformRight and abs(platformRight-self.rect.left) > abs(startPos-self.rect.right)) and self.rect.bottom > plat.rect.bottom: # If player intersects with left side of platform, keep on left side of platform.
+                    self.rect.right = startPos
+                    self.yMove += 8
+                    #print(self.rect.left, plat.rect.right)
+                
+        
+    
+
+        
+            
+        #   Check if player fell out of bounds
+        if self.rect.y > levelHeight and self.yMove > 0:
+            self.health -= 5
+            print(self.health)
+            self.rect.x = infoObject.current_w*0.08
+            self.rect.y = infoObject.current_h-tileWidth*6  # Instead, die and go to place on screen
+            
+            
+        # The jump part, switches to falling at the end.
+        if self.jumpState == True and self.fallState == False:
+            self.yMove -= 20    # Change this to be proportional to screen size.
+            self.fallState = True
+            #print("done")
+            
+        #print(self.fallState, self.jumpState)
+        
+    
+        
             
 
         
@@ -149,8 +223,7 @@ class EnemyClass(pygame.sprite.Sprite):
         #   Check if player fell out of bounds
         if self.rect.y > levelHeight and self.yMove > 0:
             self.yMove = 0
-            self.rect.y = infoObject.current_h-tileWidth*6
-        print(self.rect.y)
+            self.rect.y = infoObject.current_h-tileWidth*6  # should reach floor before this. Do something else.
         
         
         
@@ -192,6 +265,13 @@ class EnemyClass(pygame.sprite.Sprite):
                 self.frame = 0
             self.image = self.imgsList[self.frame//boarRunFrames]
 
+
+        grndHitList = pygame.sprite.spritecollide(self, grndList, False)    # spritecollide returns a list of sprites in the group that intersect with the player.
+        
+        for grnd in grndHitList:
+            self.yMove = 0
+            self.rect.bottom = grnd.rect.top
+            #self.jumpState = False  # Finish jumping.
 
 
 
@@ -250,8 +330,10 @@ class Level:
         pPos = []
         platsPlaced = 0
         if lvl == 1:
-            pPos.append((200, levelheight - (tileWidth*10), 8))  # tuple for individual positions.  Format: (x, y, length). Length is number of tiles for platform to consist of.   Have multiple of these lines for how many platforms wanted.
+            allStartPos = [200]
             
+            for startPos in allStartPos:
+                pPos.append((startPos, levelheight - (tileWidth*7.5), 8))  # tuple for individual positions.  Format: (x, y, length). Length is number of tiles for platform to consist of.   Have multiple of these lines for how many platforms wanted.
             while platsPlaced < len(pPos):    # number of elements in pPos means that platforms in level
                 tilesPlaced = 0
                 while tilesPlaced <= pPos[platsPlaced][2]:
@@ -260,7 +342,7 @@ class Level:
                     tilesPlaced += 1
                 platsPlaced += 1
                 
-        return pltList
+        return pltList, startPos
         
         
         
@@ -319,7 +401,7 @@ player.rect.y = infoObject.current_h*0.7
 playerList = pygame.sprite.Group()
 playerList.add(player)
 
-runXChange = 5
+runXChange = 10
 
 
 spawnPos = [1200, 1100]
@@ -345,7 +427,7 @@ while i < ((levelWidth/tileWidth) + tileWidth):   # Adds how many ground tiles t
 
 grndList = Level.ground(1, grndTilPos, tileWidth, tileHeight)
 
-pltList = Level.platform(1, tileWidth, tileHeight)
+pltList, startPos = Level.platform(1, tileWidth, tileHeight)
 
 
 
@@ -384,7 +466,7 @@ while gaming:
             if event.key == pygame.K_LEFT or event.key == pygame.K_a:
                 player.move(-runXChange, 0)
             if event.key == pygame.K_UP or event.key == pygame.K_w or event.key == pygame.K_SPACE:
-                print("jump key down")
+                player.jump()
             
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_RIGHT or event.key == pygame.K_d:
