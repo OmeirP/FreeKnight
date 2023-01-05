@@ -47,14 +47,14 @@ class playerClass(pygame.sprite.Sprite):
         self.yMove = 0
         self.frame = 0
         self.health = 20
+        self.direction = "right"
         self.jumpState = False
         self.fallState = True
         
         self.imgsList = []
-        for i in range(1, 11):
-            
-            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + ".png")).convert_alpha()
-            self.image = pygame.transform.scale(self.image, (2*playerXScale, 3*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+        for i in range(1, 10):
+            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle", "idle" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.transform.scale(self.image, (9*playerXScale, 6*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
             self.imgsList.append(self.image)
             
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
@@ -85,25 +85,66 @@ class playerClass(pygame.sprite.Sprite):
         #else:
         #    print("fail")
 
-        
+    
+    def runAnimSwitch(self):
+        self.imgsList = []
+        for i in range(1, 11):
+            
+            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.transform.scale(self.image, (2*playerXScale, 3*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+            self.imgsList.append(self.image)
+            
+            self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
+            
+            self.rect = self.firstImg.get_rect()
+    
+    def idleAnimSwitch(self):
+        self.imgsList = []
+        for i in range(1, 10):
+            
+            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle", "idle" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.transform.scale(self.image, (9*playerXScale, 6*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+            self.imgsList.append(self.image)
+            
+            self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
+            
+            self.rect = self.firstImg.get_rect()
+                
+    
     def update(self):
         
         self.rect.x += self.xMove
         self.rect.y += self.yMove
-        
+        print(self.rect.x)
         
         if self.xMove > 0:  #more than 0 because future x pos will increase if moving right
+            self.runAnimSwitch()
             self.frame += 1
             if self.frame > 9*runFrames:  # 9 because thats how many other frames there are
                 self.frame = 0  ## reset animation
             self.image = self.imgsList[self.frame//runFrames]
 
-
+    
         if self.xMove < 0:  #moving left
+            self.runAnimSwitch()
             self.frame += 1
             if self.frame > 9*runFrames:
                 self.frame = 0
             self.image = pygame.transform.flip((self.imgsList[self.frame//runFrames]), True, False)  #flipping the item in the list that is going to be updated to
+            
+
+        if self.xMove == 0:
+            self.idleAnimSwitch()
+            self.frame += 1
+            if self.frame > 8*playerIdleFrames:
+                self.frame = 0
+            if self.direction == "right":
+                self.image = self.imgsList[self.frame//playerIdleFrames]
+            elif self.direction == "left":
+                self.image = pygame.transform.flip((self.imgsList[self.frame//playerIdleFrames]), True, False)
+            
+            
+            
             
         dmgList = pygame.sprite.spritecollide(self, enemyList, False, pygame.sprite.collide_rect)  # False is for dokill, go on pygame doc for an explanation
         
@@ -531,7 +572,7 @@ while gaming:
         for enemy in enemyList:
             enemy.rect.x -= scrollChange
             
-            
+    
     #   Scroll player and platform tiles when going foward.
     if player.rect.x <= bkwdCamDed:
         scrollChange = bkwdCamDed - player.rect.x
@@ -542,7 +583,7 @@ while gaming:
             grnd.rect.x += scrollChange
         for enemy in enemyList:
             enemy.rect.x += scrollChange
-    
+
 
 
 
