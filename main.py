@@ -35,6 +35,7 @@ gaming = True
 
 
 
+
 ############ objects
 
 class playerClass(pygame.sprite.Sprite):
@@ -338,7 +339,7 @@ class Level:
         pPos = []
         platsPlaced = 0
         if lvl == 1:
-            allStartPos = [200]
+            allStartPos = [levelWidth*0.05]
             
             for startPos in allStartPos:
                 pPos.append((startPos, levelheight - (tileWidth*7.5), 8))  # tuple for individual positions.  Format: (x, y, length). Length is number of tiles for platform to consist of.   Have multiple of these lines for how many platforms wanted.
@@ -404,6 +405,12 @@ boarYScale = infoObject.current_h//32
 gameDisplayRect=gameDisplay.get_rect()
 
 
+fwdCamDed = infoObject.current_w * 0.6      # Forward camera deadzone
+bkwdCamDed = infoObject.current_w * 0.1
+
+
+
+
 player = playerClass()
 
 #player.rect.x = 200
@@ -413,7 +420,7 @@ player = playerClass()
 # player.rect.y = infoObject.current_h*0.6
 
 
-player.rect.x = infoObject.current_w*0.08
+player.rect.x = infoObject.current_w*0.5
 player.rect.y = infoObject.current_h*0.7
 
 playerList = pygame.sprite.Group()
@@ -434,7 +441,7 @@ tileWidth = 64
 tileHeight = 64
 
 
-levelWidth = infoObject.current_w   #   Change this depending on level.
+levelWidth = infoObject.current_w*10   #   Change this depending on level.
 levelHeight = infoObject.current_h+infoObject.current_h*0.1     # Screen Height + 10% of screen height so can fall a bit out and not die.
 
 
@@ -511,7 +518,34 @@ while gaming:
             else:
                 player.move(0, 0, "CONTROLLER")
             
-                
+
+
+    #   Scroll player and platform tiles when going foward.
+    if player.rect.x >= fwdCamDed:
+        scrollChange = player.rect.x - fwdCamDed    # Get change to move platforms.
+        player.rect.x = fwdCamDed   # Keep player at deadzone spot.
+        for plat in pltList:
+            plat.rect.x -= scrollChange
+        for grnd in grndList:
+            grnd.rect.x -= scrollChange
+        for enemy in enemyList:
+            enemy.rect.x -= scrollChange
+            
+            
+    #   Scroll player and platform tiles when going foward.
+    if player.rect.x <= bkwdCamDed:
+        scrollChange = bkwdCamDed - player.rect.x
+        player.rect.x = bkwdCamDed
+        for plat in pltList:
+            plat.rect.x += scrollChange
+        for grnd in grndList:
+            grnd.rect.x += scrollChange
+        for enemy in enemyList:
+            enemy.rect.x += scrollChange
+    
+
+
+
     
     gameDisplay.blit(background, gameDisplayRect)
     
