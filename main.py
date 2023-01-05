@@ -339,7 +339,7 @@ class Level:
         pPos = []
         platsPlaced = 0
         if lvl == 1:
-            allStartPos = [200]
+            allStartPos = [levelWidth*0.05]
             
             for startPos in allStartPos:
                 pPos.append((startPos, levelheight - (tileWidth*7.5), 8))  # tuple for individual positions.  Format: (x, y, length). Length is number of tiles for platform to consist of.   Have multiple of these lines for how many platforms wanted.
@@ -528,6 +528,8 @@ while gaming:
             plat.rect.x -= scrollChange
         for grnd in grndList:
             grnd.rect.x -= scrollChange
+        for enemy in enemyList:
+            enemy.rect.x -= scrollChange
             
             
     #   Scroll player and platform tiles when going foward.
@@ -538,6 +540,8 @@ while gaming:
             plat.rect.x += scrollChange
         for grnd in grndList:
             grnd.rect.x += scrollChange
+        for enemy in enemyList:
+            enemy.rect.x += scrollChange
     
 
 
