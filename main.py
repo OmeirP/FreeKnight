@@ -52,9 +52,9 @@ class playerClass(pygame.sprite.Sprite):
         self.fallState = True
         
         self.imgsList = []
-        for i in range(1, 10):
+        for i in range(1, 11):
             self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle", "idle" + str(i) + ".png")).convert_alpha()
-            self.image = pygame.transform.scale(self.image, (9*playerXScale, 6*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+            self.image = pygame.transform.scale(self.image, (2*playerXScale, 3*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
             self.imgsList.append(self.image)
             
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
@@ -77,6 +77,8 @@ class playerClass(pygame.sprite.Sprite):
             self.xMove = x
             
         self.yMove += y
+        
+        
 
     def jump(self):
         if self.jumpState == False: # if not already jumping
@@ -96,31 +98,31 @@ class playerClass(pygame.sprite.Sprite):
             
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
             
-            self.rect = self.firstImg.get_rect()
+            self.rect.width = self.firstImg.get_width()
+            self.rect.height = self.firstImg.get_height()
     
     def idleAnimSwitch(self):
         self.imgsList = []
-        for i in range(1, 10):
+        for i in range(1, 11):
             
             self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle", "idle" + str(i) + ".png")).convert_alpha()
-            self.image = pygame.transform.scale(self.image, (9*playerXScale, 6*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+            self.image = pygame.transform.scale(self.image, (2*playerXScale, 3*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
             self.imgsList.append(self.image)
             
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
             
-            self.rect = self.firstImg.get_rect()
+            self.rect.width = self.firstImg.get_width()
+            self.rect.height = self.firstImg.get_height()
                 
     
     def update(self):
         
-        self.rect.x += self.xMove
-        self.rect.y += self.yMove
-        print(self.rect.x)
+
         
         if self.xMove > 0:  #more than 0 because future x pos will increase if moving right
             self.runAnimSwitch()
             self.frame += 1
-            if self.frame > 9*runFrames:  # 9 because thats how many other frames there are
+            if self.frame > 8*runFrames:  # 9 because thats how many other frames there are
                 self.frame = 0  ## reset animation
             self.image = self.imgsList[self.frame//runFrames]
 
@@ -128,11 +130,11 @@ class playerClass(pygame.sprite.Sprite):
         if self.xMove < 0:  #moving left
             self.runAnimSwitch()
             self.frame += 1
-            if self.frame > 9*runFrames:
+            if self.frame > 8*runFrames:
                 self.frame = 0
             self.image = pygame.transform.flip((self.imgsList[self.frame//runFrames]), True, False)  #flipping the item in the list that is going to be updated to
-            
-
+                     
+        
         if self.xMove == 0:
             self.idleAnimSwitch()
             self.frame += 1
@@ -142,9 +144,13 @@ class playerClass(pygame.sprite.Sprite):
                 self.image = self.imgsList[self.frame//playerIdleFrames]
             elif self.direction == "left":
                 self.image = pygame.transform.flip((self.imgsList[self.frame//playerIdleFrames]), True, False)
+        
+        
+        self.rect.x += self.xMove
+        self.rect.y += self.yMove
+        print(self.rect.x, self.rect.y, self.rect.y > levelHeight)
             
-            
-            
+        
             
         dmgList = pygame.sprite.spritecollide(self, enemyList, False, pygame.sprite.collide_rect)  # False is for dokill, go on pygame doc for an explanation
         
@@ -158,7 +164,7 @@ class playerClass(pygame.sprite.Sprite):
         for grnd in grndHitList:
             self.yMove = 0
             self.rect.bottom = grnd.rect.top
-            self.jumpState = False  # Finish jumping.
+            self.jumpState = False  # Finish jumping
         
         
         pltHitList = pygame.sprite.spritecollide(self, pltList, False)
@@ -212,7 +218,7 @@ class playerClass(pygame.sprite.Sprite):
             print(self.health)
             self.rect.x = infoObject.current_w*0.08
             self.rect.y = infoObject.current_h-tileWidth*6  # Instead, die and go to place on screen
-            
+        
             
         # The jump part, switches to falling at the end.
         if self.jumpState == True and self.fallState == False:
@@ -376,14 +382,14 @@ class Level:
     
     def platform(lvl, tileWidth, tileHeight):
         pltList = pygame.sprite.Group()
-        levelheight = infoObject.current_h
+        screenHeight = infoObject.current_h
         pPos = []
         platsPlaced = 0
         if lvl == 1:
-            allStartPos = [levelWidth*0.05]
+            allStartPos = [levelWidth*0.05] # This list should contain start positions for all platforms. (May need to use enumerate for multiple platforms.)
             
             for startPos in allStartPos:
-                pPos.append((startPos, levelheight - (tileWidth*7.5), 8))  # tuple for individual positions.  Format: (x, y, length). Length is number of tiles for platform to consist of.   Have multiple of these lines for how many platforms wanted.
+                pPos.append((startPos, screenHeight - (tileWidth*7.5), 8))  # tuple for individual positions.  Format: (x, y, length). Length is number of tiles for platform to consist of.   Have multiple of these lines for how many platforms wanted.
             while platsPlaced < len(pPos):    # number of elements in pPos means that platforms in level
                 tilesPlaced = 0
                 while tilesPlaced <= pPos[platsPlaced][2]:
@@ -461,7 +467,7 @@ player = playerClass()
 # player.rect.y = infoObject.current_h*0.6
 
 
-player.rect.x = infoObject.current_w*0.5
+player.rect.x = infoObject.current_w*0.2
 player.rect.y = infoObject.current_h*0.7
 
 playerList = pygame.sprite.Group()
@@ -550,7 +556,7 @@ while gaming:
         
         if event.type == pygame.JOYAXISMOTION:
             xAxisPos = xController.get_axis(0)
-            print(xController.get_axis(1))
+            #print(xController.get_axis(1))
             if xAxisPos < -0.3:
                 player.move(-runXChange, 0, "CONTROLLER")
                 print("keep moving")
@@ -583,7 +589,7 @@ while gaming:
             grnd.rect.x += scrollChange
         for enemy in enemyList:
             enemy.rect.x += scrollChange
-
+    
 
 
 
