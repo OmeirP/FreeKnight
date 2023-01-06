@@ -47,14 +47,17 @@ class playerClass(pygame.sprite.Sprite):
         self.yMove = 0
         self.frame = 0
         self.health = 20
+        self.direction = "right"
         self.jumpState = False
         self.fallState = True
         
+        self.playerXScale = infoObject.current_w//37
+        self.playerYScale = infoObject.current_h//19
+        
         self.imgsList = []
         for i in range(1, 11):
-            
-            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + ".png")).convert_alpha()
-            self.image = pygame.transform.scale(self.image, (2*playerXScale, 3*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle", "idle" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.transform.scale(self.image, (1.357142857*self.playerXScale, 2.035714286*self.playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
             self.imgsList.append(self.image)
             
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
@@ -75,8 +78,14 @@ class playerClass(pygame.sprite.Sprite):
             self.xMove += x
         elif device == "CONTROLLER":
             self.xMove = x
-            
+        
         self.yMove += y
+        
+        if self.xMove < 0:
+            self.direction = "left"
+        elif self.xMove > 0:
+            self.direction = "right"
+        
 
     def jump(self):
         if self.jumpState == False: # if not already jumping
@@ -85,25 +94,81 @@ class playerClass(pygame.sprite.Sprite):
         #else:
         #    print("fail")
 
+    
+    def runAnimSwitch(self):
         
+        self.playerXScale = infoObject.current_w//42
+        self.playerYScale = infoObject.current_h//28
+        
+        self.imgsList = []
+        for i in range(1, 11):
+            
+            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.transform.scale(self.image, (2*self.playerXScale, 3*self.playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+            self.imgsList.append(self.image)
+            
+            self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
+            
+            self.rect.width = self.firstImg.get_width()
+            self.rect.height = self.firstImg.get_height()
+    
+    
+    
+    def idleAnimSwitch(self):
+        
+        self.playerXScale = infoObject.current_w//37
+        self.playerYScale = infoObject.current_h//19
+        
+        self.imgsList = []
+        for i in range(1, 11):
+            
+            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle", "idle" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.transform.scale(self.image, (1.357142857*self.playerXScale, 2.035714286*self.playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+            self.imgsList.append(self.image)
+            
+            self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
+            
+            self.rect.width = self.firstImg.get_width()
+            self.rect.height = self.firstImg.get_height()
+                
+    
     def update(self):
         
-        self.rect.x += self.xMove
-        self.rect.y += self.yMove
+
         
-        
-        if self.xMove > 0:  #more than 0 because future x pos will increase if moving right
+        if self.xMove > 0 and self.fallState != True:  #more than 0 because future x pos will increase if moving right
+            self.runAnimSwitch()
             self.frame += 1
-            if self.frame > 9*runFrames:  # 9 because thats how many other frames there are
+            if self.frame > 8*runFrames:  # 9 because thats how many other frames there are
                 self.frame = 0  ## reset animation
             self.image = self.imgsList[self.frame//runFrames]
 
-
-        if self.xMove < 0:  #moving left
+    
+        if self.xMove < 0 and self.fallState != True:  #moving left
+            self.runAnimSwitch()
             self.frame += 1
-            if self.frame > 9*runFrames:
+            if self.frame > 8*runFrames:
                 self.frame = 0
             self.image = pygame.transform.flip((self.imgsList[self.frame//runFrames]), True, False)  #flipping the item in the list that is going to be updated to
+                     
+        
+        if self.xMove == 0 and self.fallState != True:
+            self.idleAnimSwitch()
+            self.frame += 1
+            if self.frame > 8*playerIdleFrames:
+                self.frame = 0
+            if self.direction == "right":
+                self.image = self.imgsList[self.frame//playerIdleFrames]
+            elif self.direction == "left":
+                self.image = pygame.transform.flip((self.imgsList[self.frame//playerIdleFrames]), True, False)
+        print(self.direction)
+        
+        
+        self.rect.x += self.xMove
+        self.rect.y += self.yMove
+        #print(self.rect.x, self.rect.y, self.rect.y > levelHeight)
+            
+        
             
         dmgList = pygame.sprite.spritecollide(self, enemyList, False, pygame.sprite.collide_rect)  # False is for dokill, go on pygame doc for an explanation
         
@@ -117,10 +182,11 @@ class playerClass(pygame.sprite.Sprite):
         for grnd in grndHitList:
             self.yMove = 0
             self.rect.bottom = grnd.rect.top
-            self.jumpState = False  # Finish jumping.
+            self.jumpState = False  # Finish jumping
+            self.fallState = False
         
         
-        pltHitList = pygame.sprite.spritecollide(self, pltList, False)
+        pltHitList = pygame.sprite.spritecollide(self, pltList, False)  # Consider adding mask_collide. Better collision with side but correction uses rect not mask so doesn't look as clean.
         
         
     
@@ -130,17 +196,16 @@ class playerClass(pygame.sprite.Sprite):
         
         
         for plat in pltHitList:
-    
+
             # This part same as before for ground.
             self.yMove = 0
             #self.jumpState = False
-            
             platformRight = (startPos + 64 * platsNum)
             # If player is under platform when colliding.
             if self.rect.bottom <= plat.rect.bottom:    # If the player is higher than the platform when colliding. Make player sprite sit on top of platform sprite.
                 self.rect.bottom = plat.rect.top
                 self.jumpState = False
-
+                self.fallState = False
 
             
             elif self.rect.bottom > plat.rect.bottom and (self.rect.left > startPos and self.rect.right < platformRight):     # If player is below platform (when jumping) and not outside of it.
@@ -169,9 +234,9 @@ class playerClass(pygame.sprite.Sprite):
         if self.rect.y > levelHeight and self.yMove > 0:
             self.health -= 5
             print(self.health)
-            self.rect.x = infoObject.current_w*0.08
+            self.rect.x = infoObject.current_w*0.38
             self.rect.y = infoObject.current_h-tileWidth*6  # Instead, die and go to place on screen
-            
+        
             
         # The jump part, switches to falling at the end.
         if self.jumpState == True and self.fallState == False:
@@ -185,6 +250,7 @@ class playerClass(pygame.sprite.Sprite):
         
             
 
+        
         
             
             
@@ -250,7 +316,7 @@ class EnemyClass(pygame.sprite.Sprite):
             self.stepCount = 0
         
         self.stepCount += 1
-        
+    
         
     def update(self):
         
@@ -335,14 +401,14 @@ class Level:
     
     def platform(lvl, tileWidth, tileHeight):
         pltList = pygame.sprite.Group()
-        levelheight = infoObject.current_h
+        screenHeight = infoObject.current_h
         pPos = []
         platsPlaced = 0
         if lvl == 1:
-            allStartPos = [levelWidth*0.05]
+            allStartPos = [levelWidth*0.05] # This list should contain start positions for all platforms. (May need to use enumerate for multiple platforms.)
             
             for startPos in allStartPos:
-                pPos.append((startPos, levelheight - (tileWidth*7.5), 8))  # tuple for individual positions.  Format: (x, y, length). Length is number of tiles for platform to consist of.   Have multiple of these lines for how many platforms wanted.
+                pPos.append((startPos, screenHeight - (tileWidth*7.5), 8))  # tuple for individual positions.  Format: (x, y, length). Length is number of tiles for platform to consist of.   Have multiple of these lines for how many platforms wanted.
             while platsPlaced < len(pPos):    # number of elements in pPos means that platforms in level
                 tilesPlaced = 0
                 while tilesPlaced <= pPos[platsPlaced][2]:
@@ -351,7 +417,10 @@ class Level:
                     tilesPlaced += 1
                 platsPlaced += 1
                 
-        return pltList, startPos
+            platsNum = len(pltList.sprites())
+            platformRight = (startPos + 64 * platsNum)
+                
+        return pltList, startPos, platformRight
         
         
 
@@ -392,8 +461,8 @@ background = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest -
 
 background = pygame.transform.scale(background, (infoObject.current_w, infoObject.current_h))
 
-playerXScale = infoObject.current_w//42
-playerYScale = infoObject.current_h//28
+#playerXScale = infoObject.current_w//42
+#playerYScale = infoObject.current_h//28
 
 #playerXScale = infoObject.current_w//80
 #playerYScale = infoObject.current_h//120
@@ -420,7 +489,7 @@ player = playerClass()
 # player.rect.y = infoObject.current_h*0.6
 
 
-player.rect.x = infoObject.current_w*0.5
+player.rect.x = infoObject.current_w*0.2
 player.rect.y = infoObject.current_h*0.7
 
 playerList = pygame.sprite.Group()
@@ -452,7 +521,7 @@ while i < ((levelWidth/tileWidth) + tileWidth):   # Adds how many ground tiles t
 
 grndList = Level.ground(1, grndTilPos, tileWidth, tileHeight)
 
-pltList, startPos = Level.platform(1, tileWidth, tileHeight)
+pltList, startPos, platformRight = Level.platform(1, tileWidth, tileHeight)
 
 
 
@@ -509,7 +578,7 @@ while gaming:
         
         if event.type == pygame.JOYAXISMOTION:
             xAxisPos = xController.get_axis(0)
-            print(xController.get_axis(1))
+            #print(xController.get_axis(1))
             if xAxisPos < -0.3:
                 player.move(-runXChange, 0, "CONTROLLER")
                 print("keep moving")
@@ -518,32 +587,32 @@ while gaming:
             else:
                 player.move(0, 0, "CONTROLLER")
             
-
-
+    
     #   Scroll player and platform tiles when going foward.
     if player.rect.x >= fwdCamDed:
         scrollChange = player.rect.x - fwdCamDed    # Get change to move platforms.
         player.rect.x = fwdCamDed   # Keep player at deadzone spot.
         for plat in pltList:
             plat.rect.x -= scrollChange
+        startPos -= scrollChange
         for grnd in grndList:
             grnd.rect.x -= scrollChange
         for enemy in enemyList:
             enemy.rect.x -= scrollChange
-            
-            
+    
+    
     #   Scroll player and platform tiles when going foward.
     if player.rect.x <= bkwdCamDed:
         scrollChange = bkwdCamDed - player.rect.x
         player.rect.x = bkwdCamDed
         for plat in pltList:
-            plat.rect.x += scrollChange
+            plat.rect.x += scrollChange 
+        startPos += scrollChange # Need to do for all startPos in allStartPos?
         for grnd in grndList:
             grnd.rect.x += scrollChange
         for enemy in enemyList:
             enemy.rect.x += scrollChange
     
-
 
 
     
