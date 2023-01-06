@@ -167,7 +167,7 @@ class playerClass(pygame.sprite.Sprite):
             self.jumpState = False  # Finish jumping
         
         
-        pltHitList = pygame.sprite.spritecollide(self, pltList, False)
+        pltHitList = pygame.sprite.spritecollide(self, pltList, False)  # Consider adding mask_collide. Better collision with side but correction uses rect not mask so doesn't look as clean.
         
         
     
