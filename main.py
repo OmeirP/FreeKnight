@@ -148,7 +148,7 @@ class playerClass(pygame.sprite.Sprite):
         
         self.rect.x += self.xMove
         self.rect.y += self.yMove
-        print(self.rect.x, self.rect.y, self.rect.y > levelHeight)
+        #print(self.rect.x, self.rect.y, self.rect.y > levelHeight)
             
         
             
@@ -177,11 +177,10 @@ class playerClass(pygame.sprite.Sprite):
         
         
         for plat in pltHitList:
-    
+
             # This part same as before for ground.
             self.yMove = 0
             #self.jumpState = False
-            
             platformRight = (startPos + 64 * platsNum)
             # If player is under platform when colliding.
             if self.rect.bottom <= plat.rect.bottom:    # If the player is higher than the platform when colliding. Make player sprite sit on top of platform sprite.
@@ -232,6 +231,7 @@ class playerClass(pygame.sprite.Sprite):
         
             
 
+        
         
             
             
@@ -297,7 +297,7 @@ class EnemyClass(pygame.sprite.Sprite):
             self.stepCount = 0
         
         self.stepCount += 1
-        
+    
         
     def update(self):
         
@@ -398,7 +398,10 @@ class Level:
                     tilesPlaced += 1
                 platsPlaced += 1
                 
-        return pltList, startPos
+            platsNum = len(pltList.sprites())
+            platformRight = (startPos + 64 * platsNum)
+                
+        return pltList, startPos, platformRight
         
         
 
@@ -499,7 +502,7 @@ while i < ((levelWidth/tileWidth) + tileWidth):   # Adds how many ground tiles t
 
 grndList = Level.ground(1, grndTilPos, tileWidth, tileHeight)
 
-pltList, startPos = Level.platform(1, tileWidth, tileHeight)
+pltList, startPos, platformRight = Level.platform(1, tileWidth, tileHeight)
 
 
 
@@ -565,32 +568,32 @@ while gaming:
             else:
                 player.move(0, 0, "CONTROLLER")
             
-
-
+    
     #   Scroll player and platform tiles when going foward.
     if player.rect.x >= fwdCamDed:
         scrollChange = player.rect.x - fwdCamDed    # Get change to move platforms.
         player.rect.x = fwdCamDed   # Keep player at deadzone spot.
         for plat in pltList:
             plat.rect.x -= scrollChange
+        startPos -= scrollChange
         for grnd in grndList:
             grnd.rect.x -= scrollChange
         for enemy in enemyList:
             enemy.rect.x -= scrollChange
-            
+    
     
     #   Scroll player and platform tiles when going foward.
     if player.rect.x <= bkwdCamDed:
         scrollChange = bkwdCamDed - player.rect.x
         player.rect.x = bkwdCamDed
         for plat in pltList:
-            plat.rect.x += scrollChange
+            plat.rect.x += scrollChange 
+        startPos += scrollChange # Need to do for all startPos in allStartPos?
         for grnd in grndList:
             grnd.rect.x += scrollChange
         for enemy in enemyList:
             enemy.rect.x += scrollChange
     
-
 
 
     
