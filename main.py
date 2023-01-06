@@ -205,7 +205,7 @@ class playerClass(pygame.sprite.Sprite):
             if self.rect.bottom <= plat.rect.bottom:    # If the player is higher than the platform when colliding. Make player sprite sit on top of platform sprite.
                 self.rect.bottom = plat.rect.top
                 self.jumpState = False
-
+                self.fallState = False
 
             
             elif self.rect.bottom > plat.rect.bottom and (self.rect.left > startPos and self.rect.right < platformRight):     # If player is below platform (when jumping) and not outside of it.
