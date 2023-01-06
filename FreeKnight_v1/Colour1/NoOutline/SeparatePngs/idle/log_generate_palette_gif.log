@@ -1,0 +1,546 @@
+ffmpeg version 2023-01-01-git-62da0b4a74-full_build-www.gyan.dev Copyright (c) 2000-2023 the FFmpeg developers
+  built with gcc 12.1.0 (Rev2, Built by MSYS2 project)
+  configuration: --enable-gpl --enable-version3 --enable-static --disable-w32threads --disable-autodetect --enable-fontconfig --enable-iconv --enable-gnutls --enable-libxml2 --enable-gmp --enable-bzlib --enable-lzma --enable-libsnappy --enable-zlib --enable-librist --enable-libsrt --enable-libssh --enable-libzmq --enable-avisynth --enable-libbluray --enable-libcaca --enable-sdl2 --enable-libaribb24 --enable-libdav1d --enable-libdavs2 --enable-libuavs3d --enable-libzvbi --enable-librav1e --enable-libsvtav1 --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxavs2 --enable-libxvid --enable-libaom --enable-libjxl --enable-libopenjpeg --enable-libvpx --enable-mediafoundation --enable-libass --enable-frei0r --enable-libfreetype --enable-libfribidi --enable-liblensfun --enable-libvidstab --enable-libvmaf --enable-libzimg --enable-amf --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-nvdec --enable-nvenc --enable-d3d11va --enable-dxva2 --enable-libvpl --enable-libshaderc --enable-vulkan --enable-libplacebo --enable-opencl --enable-libcdio --enable-libgme --enable-libmodplug --enable-libopenmpt --enable-libopencore-amrwb --enable-libmp3lame --enable-libshine --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libilbc --enable-libgsm --enable-libopencore-amrnb --enable-libopus --enable-libspeex --enable-libvorbis --enable-ladspa --enable-libbs2b --enable-libflite --enable-libmysofa --enable-librubberband --enable-libsoxr --enable-chromaprint
+  libavutil      57. 43.100 / 57. 43.100
+  libavcodec     59. 55.103 / 59. 55.103
+  libavformat    59. 34.102 / 59. 34.102
+  libavdevice    59.  8.101 / 59.  8.101
+  libavfilter     8. 53.100 /  8. 53.100
+  libswscale      6.  8.112 /  6.  8.112
+  libswresample   4.  9.100 /  4.  9.100
+  libpostproc    56.  7.100 / 56.  7.100
+Splitting the commandline.
+Reading option '-v' ... matched as option 'v' (set logging level) with argument 'debug'.
+Reading option '-nostdin' ... matched as option 'stdin' (enable or disable interaction on standard input) with argument 0.
+Reading option '-progress' ... matched as option 'progress' (write program-readable progress information) with argument 'C:/Users/Omeir/AppData/Local/Temp/KritaFFmpegProgress.Qpvuhu'.
+Reading option '-r' ... matched as option 'r' (set frame rate (Hz value, fraction or abbreviation)) with argument '24'.
+Reading option '-start_number' ... matched as AVOption 'start_number' with argument '0'.
+Reading option '-i' ... matched as input url with argument 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame%04d.png'.
+Reading option '-vf' ... matched as option 'vf' (set video filters) with argument 'palettegen'.
+Reading option '-y' ... matched as option 'y' (overwrite output files) with argument '1'.
+Reading option 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/palette.png' ... matched as output url.
+Finished splitting the commandline.
+Parsing a group of options: global .
+Applying option v (set logging level) with argument debug.
+Applying option nostdin (enable or disable interaction on standard input) with argument 0.
+Applying option progress (write program-readable progress information) with argument C:/Users/Omeir/AppData/Local/Temp/KritaFFmpegProgress.Qpvuhu.
+[file @ 0000020e9beb69c0] Setting default whitelist 'file,crypto,data'
+Applying option y (overwrite output files) with argument 1.
+Successfully parsed a group of options.
+Parsing a group of options: input url J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame%04d.png.
+Applying option r (set frame rate (Hz value, fraction or abbreviation)) with argument 24.
+Successfully parsed a group of options.
+Opening an input file: J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame%04d.png.
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0000.png' for reading
+[file @ 0000020e9beb5000] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf02740] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0001.png' for reading
+[file @ 0000020e9bf02e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf14080] Statistics: 1163 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0002.png' for reading
+[file @ 0000020e9bf14740] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf14080] Statistics: 1160 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0003.png' for reading
+[file @ 0000020e9bf14d80] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf14080] Statistics: 1184 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0004.png' for reading
+[file @ 0000020e9bf15440] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf14080] Statistics: 1181 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0005.png' for reading
+[file @ 0000020e9bf15b00] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf14080] Statistics: 1177 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0006.png' for reading
+[file @ 0000020e9bf15cc0] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf14080] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0007.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf14080] Statistics: 1167 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0008.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf14080] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0009.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf14080] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0010.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf14080] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0011.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf14080] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0012.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf02340] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0013.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf02340] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0014.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf02340] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0015.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf02340] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0016.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf02340] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0017.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0018.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0019.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0020.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0021.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0022.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0023.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0024.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0025.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0026.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0027.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0028.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0029.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0030.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0031.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0032.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0033.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0034.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0035.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0036.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0037.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0038.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0039.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0040.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0041.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0042.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0043.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0044.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0045.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0046.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0047.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0048.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0049.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0050.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0051.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0052.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0053.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0054.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0055.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0056.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0057.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0058.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0059.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0060.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0061.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0062.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0063.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0064.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0065.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0066.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0067.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0068.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0069.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0070.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0071.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0072.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0073.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0074.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0075.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0076.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0077.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0078.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0079.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0080.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0081.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0082.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0083.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0084.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0085.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0086.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0087.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0088.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0089.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0090.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0091.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0092.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0093.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0094.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0095.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0096.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0097.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0098.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0099.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+[image2 @ 0000020e9bef6e80] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame0100.png' for reading
+[file @ 0000020e9bf15e40] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0eac0] Statistics: 1169 bytes read, 0 seeks
+Input #0, image2, from 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame%04d.png':
+  Duration: 00:00:04.04, start: 0.000000, bitrate: N/A
+  Stream #0:0, 101, 1/25: Video: png, 1 reference frame, rgba(pc), 19x37 [SAR 11811:11811 DAR 19:37], 0/1, 25 fps, 25 tbr, 25 tbn
+Successfully opened the file.
+Parsing a group of options: output url J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/palette.png.
+Applying option vf (set video filters) with argument palettegen.
+Successfully parsed a group of options.
+Opening an output file: J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/palette.png.
+Successfully opened the file.
+detected 16 logical cores
+Stream mapping:
+  Stream #0:0 -> #0:0 (png (native) -> png (native))
+cur_dts is invalid st:0 (0) [init:0 i_done:0 finish:0] (this is harmless if it occurs once at the start per stream)
+    Last message repeated 15 times
+[graph 0 input from stream 0:0 @ 0000020e9bf6c8c0] Setting 'video_size' to value '19x37'
+[graph 0 input from stream 0:0 @ 0000020e9bf6c8c0] Setting 'pix_fmt' to value '26'
+[graph 0 input from stream 0:0 @ 0000020e9bf6c8c0] Setting 'time_base' to value '1/24'
+[graph 0 input from stream 0:0 @ 0000020e9bf6c8c0] Setting 'pixel_aspect' to value '11811/11811'
+[graph 0 input from stream 0:0 @ 0000020e9bf6c8c0] Setting 'frame_rate' to value '24/1'
+[graph 0 input from stream 0:0 @ 0000020e9bf6c8c0] w:19 h:37 pixfmt:rgba tb:1/24 fr:24/1 sar:11811/11811
+[format @ 0000020e9c035b00] Setting 'pix_fmts' to value 'rgb24|rgba|rgb48be|rgba64be|pal8|gray|ya8|gray16be|ya16be|monob'
+[auto_scale_0 @ 0000020e9c036340] w:iw h:ih flags:'' interl:0
+[Parsed_palettegen_0 @ 0000020e9befe800] auto-inserting filter 'auto_scale_0' between the filter 'graph 0 input from stream 0:0' and the filter 'Parsed_palettegen_0'
+[auto_scale_1 @ 0000020e9c036800] w:iw h:ih flags:'' interl:0
+[format @ 0000020e9c035b00] auto-inserting filter 'auto_scale_1' between the filter 'Parsed_palettegen_0' and the filter 'format'
+[AVFilterGraph @ 0000020e9c007d40] query_formats: 4 queried, 3 merged, 2 already done, 0 delayed
+[auto_scale_1 @ 0000020e9c036800] picking rgba out of 10 ref:bgra alpha:1
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c049dc0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c049dc0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c061f80] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c061f80] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0763c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0763c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c08b400] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c08b400] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c09e440] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c09e440] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0b1440] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0b1440] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0c4480] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0c4480] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0d74c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0d74c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0ee800] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0ee800] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c103840] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c103840] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c116880] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c116880] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c12b8c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c12b8c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c13e8c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c13e8c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c153900] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c153900] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d1800c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d1800c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d18d080] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d18d080] Forcing full internal H chroma due to input having non subsampled chroma
+[auto_scale_0 @ 0000020e9c036340] w:19 h:37 fmt:rgba sar:11811/11811 -> w:19 h:37 fmt:bgra sar:1/1 flags:0x0
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d1b14c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d1c6500] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d1d9540] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d1ec540] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d1ff580] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d2125c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d225600] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d238600] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d24b640] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d260880] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d273a00] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d28ab40] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d29dcc0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d2b0e00] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d2c3f80] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9d1a00c0] [swscaler @ 0000020e9d2d70c0] Forcing full internal H chroma due to input having non subsampled chroma
+[auto_scale_1 @ 0000020e9c036800] w:16 h:16 fmt:bgra sar:1/1 -> w:16 h:16 fmt:rgba sar:1/1 flags:0x0
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0ee800] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0ee800] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c061f80] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c061f80] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c049dc0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c049dc0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c155940] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c155940] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d1800c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d1800c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d1930c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d1930c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c109880] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c109880] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c11c8c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c11c8c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c12f900] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c12f900] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c142900] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c142900] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c07c400] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c07c400] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c08f440] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c08f440] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0a2480] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0a2480] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0b5480] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0b5480] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0c84c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0c84c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0db500] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0db500] Forcing full internal H chroma due to input having non subsampled chroma
+[auto_scale_0 @ 0000020e9c036340] w:19 h:37 fmt:rgba sar:11811/11811 -> w:19 h:37 fmt:bgra sar:1/1 flags:0x0
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0ee800] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0ee800] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c049dc0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c049dc0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c153900] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c153900] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c05ff80] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c05ff80] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d1800c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d1800c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d18d080] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d18d080] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c103840] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c103840] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c116880] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c116880] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c129880] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c129880] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c13c8c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c13c8c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0763c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0763c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c089400] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c089400] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c09c400] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c09c400] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0af440] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0af440] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0c2480] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0c2480] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0d54c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0d54c0] Forcing full internal H chroma due to input having non subsampled chroma
+[auto_scale_0 @ 0000020e9c036340] w:19 h:37 fmt:rgba sar:11811/11811 -> w:19 h:37 fmt:bgra sar:1/1 flags:0x0
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0ee800] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0ee800] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c049dc0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c049dc0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c153900] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c153900] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c05ff80] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c05ff80] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d1800c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d1800c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d18d080] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9d18d080] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c103840] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c103840] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c116880] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c116880] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c129880] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c129880] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c13c8c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c13c8c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0763c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0763c0] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c089400] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c089400] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c09c400] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c09c400] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0af440] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0af440] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0c2480] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0c2480] Forcing full internal H chroma due to input having non subsampled chroma
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0d54c0] Forcing full internal H chroma due to odd output size
+[swscaler @ 0000020e9c036b00] [swscaler @ 0000020e9c0d54c0] Forcing full internal H chroma due to input having non subsampled chroma
+[auto_scale_0 @ 0000020e9c036340] w:19 h:37 fmt:rgba sar:11811/11811 -> w:19 h:37 fmt:bgra sar:1/1 flags:0x0
+cur_dts is invalid st:0 (0) [init:0 i_done:0 finish:0] (this is harmless if it occurs once at the start per stream)
+    Last message repeated 83 times
+EOF in input file 0
+Terminating demuxer thread 0
+cur_dts is invalid st:0 (0) [init:0 i_done:0 finish:0] (this is harmless if it occurs once at the start per stream)
+    Last message repeated 16 times
+[Parsed_palettegen_0 @ 0000020e9befe800] 10(+1) colors generated out of 10 colors; ratio=1.000000
+cur_dts is invalid st:0 (0) [init:0 i_done:0 finish:0] (this is harmless if it occurs once at the start per stream)
+Output #0, image2, to 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/palette.png':
+  Metadata:
+    encoder         : Lavf59.34.102
+  Stream #0:0, 0, 1/24: Video: png, 1 reference frame, rgba(pc, gbr/unknown/unknown, progressive), 16x16 (0x0) [SAR 1:1 DAR 1:1], 0/1, q=2-31, 200 kb/s, 24 fps, 24 tbn
+    Metadata:
+      encoder         : Lavc59.55.103 png
+Clipping frame in rate conversion by 0.000008
+frame=    0 fps=0.0 q=0.0 size=       0kB time=-577014:32:22.77 bitrate=  -0.0kbits/s speed=N/A    [out_0_0 @ 0000020e9bf6c9c0] EOF on sink link out_0_0:default.
+No more output streams to write to, finishing.
+[image2 @ 0000020e9bf1d040] The specified filename 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/palette.png' does not contain an image sequence pattern or a pattern is invalid.
+[image2 @ 0000020e9bf1d040] Use a pattern such as %03d for an image sequence or use the -update option (with -frames:v 1 if needed) to write a single image.
+[image2 @ 0000020e9bf1d040] Opening 'J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/palette.png' for writing
+[file @ 0000020e9c029d00] Setting default whitelist 'file,crypto,data'
+[AVIOContext @ 0000020e9bf0edc0] Statistics: 145 bytes written, 0 seeks, 1 writeouts
+All streams finished for output file #0
+Terminating muxer thread 0
+frame=    1 fps=0.0 q=-0.0 Lsize=N/A time=00:00:00.00 bitrate=N/A speed=   0x    
+[AVIOContext @ 0000020e9bef6c00] Statistics: 387 bytes written, 0 seeks, 2 writeouts
+video:0kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+Input file #0 (J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/frame%04d.png):
+  Input stream #0:0 (video): 101 packets read (118087 bytes); 101 frames decoded; 
+  Total: 101 packets (118087 bytes) demuxed
+Output file #0 (J:/Omeir/School/Y12/CompSci/FreeKnight/FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle/palette.png):
+  Output stream #0:0 (video): 1 frames encoded; 1 packets muxed (145 bytes); 
+  Total: 1 packets (145 bytes) muxed
+101 frames successfully decoded, 0 decoding errors
