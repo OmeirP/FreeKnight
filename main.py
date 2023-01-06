@@ -51,10 +51,13 @@ class playerClass(pygame.sprite.Sprite):
         self.jumpState = False
         self.fallState = True
         
+        self.playerXScale = infoObject.current_w//37
+        self.playerYScale = infoObject.current_h//19
+        
         self.imgsList = []
         for i in range(1, 11):
             self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle", "idle" + str(i) + ".png")).convert_alpha()
-            self.image = pygame.transform.scale(self.image, (2*playerXScale, 3*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+            self.image = pygame.transform.scale(self.image, (1.357142857*self.playerXScale, 2.035714286*self.playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
             self.imgsList.append(self.image)
             
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
@@ -75,9 +78,13 @@ class playerClass(pygame.sprite.Sprite):
             self.xMove += x
         elif device == "CONTROLLER":
             self.xMove = x
-            
+        
         self.yMove += y
         
+        if self.xMove < 0:
+            self.direction = "left"
+        elif self.xMove > 0:
+            self.direction = "right"
         
 
     def jump(self):
@@ -89,11 +96,15 @@ class playerClass(pygame.sprite.Sprite):
 
     
     def runAnimSwitch(self):
+        
+        self.playerXScale = infoObject.current_w//42
+        self.playerYScale = infoObject.current_h//28
+        
         self.imgsList = []
         for i in range(1, 11):
             
             self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + ".png")).convert_alpha()
-            self.image = pygame.transform.scale(self.image, (2*playerXScale, 3*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+            self.image = pygame.transform.scale(self.image, (2*self.playerXScale, 3*self.playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
             self.imgsList.append(self.image)
             
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
@@ -101,12 +112,18 @@ class playerClass(pygame.sprite.Sprite):
             self.rect.width = self.firstImg.get_width()
             self.rect.height = self.firstImg.get_height()
     
+    
+    
     def idleAnimSwitch(self):
+        
+        self.playerXScale = infoObject.current_w//37
+        self.playerYScale = infoObject.current_h//19
+        
         self.imgsList = []
         for i in range(1, 11):
             
             self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle", "idle" + str(i) + ".png")).convert_alpha()
-            self.image = pygame.transform.scale(self.image, (2*playerXScale, 3*playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+            self.image = pygame.transform.scale(self.image, (1.357142857*self.playerXScale, 2.035714286*self.playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
             self.imgsList.append(self.image)
             
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
@@ -119,7 +136,7 @@ class playerClass(pygame.sprite.Sprite):
         
 
         
-        if self.xMove > 0:  #more than 0 because future x pos will increase if moving right
+        if self.xMove > 0 and self.fallState != True:  #more than 0 because future x pos will increase if moving right
             self.runAnimSwitch()
             self.frame += 1
             if self.frame > 8*runFrames:  # 9 because thats how many other frames there are
@@ -127,7 +144,7 @@ class playerClass(pygame.sprite.Sprite):
             self.image = self.imgsList[self.frame//runFrames]
 
     
-        if self.xMove < 0:  #moving left
+        if self.xMove < 0 and self.fallState != True:  #moving left
             self.runAnimSwitch()
             self.frame += 1
             if self.frame > 8*runFrames:
@@ -135,7 +152,7 @@ class playerClass(pygame.sprite.Sprite):
             self.image = pygame.transform.flip((self.imgsList[self.frame//runFrames]), True, False)  #flipping the item in the list that is going to be updated to
                      
         
-        if self.xMove == 0:
+        if self.xMove == 0 and self.fallState != True:
             self.idleAnimSwitch()
             self.frame += 1
             if self.frame > 8*playerIdleFrames:
@@ -144,6 +161,7 @@ class playerClass(pygame.sprite.Sprite):
                 self.image = self.imgsList[self.frame//playerIdleFrames]
             elif self.direction == "left":
                 self.image = pygame.transform.flip((self.imgsList[self.frame//playerIdleFrames]), True, False)
+        print(self.direction)
         
         
         self.rect.x += self.xMove
@@ -165,6 +183,7 @@ class playerClass(pygame.sprite.Sprite):
             self.yMove = 0
             self.rect.bottom = grnd.rect.top
             self.jumpState = False  # Finish jumping
+            self.fallState = False
         
         
         pltHitList = pygame.sprite.spritecollide(self, pltList, False)  # Consider adding mask_collide. Better collision with side but correction uses rect not mask so doesn't look as clean.
@@ -215,7 +234,7 @@ class playerClass(pygame.sprite.Sprite):
         if self.rect.y > levelHeight and self.yMove > 0:
             self.health -= 5
             print(self.health)
-            self.rect.x = infoObject.current_w*0.08
+            self.rect.x = infoObject.current_w*0.38
             self.rect.y = infoObject.current_h-tileWidth*6  # Instead, die and go to place on screen
         
             
@@ -442,8 +461,8 @@ background = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest -
 
 background = pygame.transform.scale(background, (infoObject.current_w, infoObject.current_h))
 
-playerXScale = infoObject.current_w//42
-playerYScale = infoObject.current_h//28
+#playerXScale = infoObject.current_w//42
+#playerYScale = infoObject.current_h//28
 
 #playerXScale = infoObject.current_w//80
 #playerYScale = infoObject.current_h//120
