@@ -519,9 +519,21 @@ infoObject = pygame.display.Info()
 gameDisplay=pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 #gameDisplay=pygame.display.set_mode((256, 144))
 
-background = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest - Update 1.5/background","background.png")).convert()
+#background = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest - Update 1.5/background","background.png")).convert()
+bgl1 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","1.png")).convert_alpha()
+bgl1 = pygame.transform.scale(bgl1, (infoObject.current_w, infoObject.current_h))
+bgl2 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","2.png")).convert_alpha()
+bgl2 = pygame.transform.scale(bgl2, (infoObject.current_w, infoObject.current_h))
+bgl3 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","3.png")).convert_alpha()
+bgl3 = pygame.transform.scale(bgl3, (infoObject.current_w, infoObject.current_h))
+bgl4 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","4.png")).convert_alpha()
+bgl4 = pygame.transform.scale(bgl4, (infoObject.current_w, infoObject.current_h))
 
-background = pygame.transform.scale(background, (infoObject.current_w, infoObject.current_h))
+background = [bgl1, bgl2, bgl3, bgl4]
+
+redTree = pygame.image.load(os.path.join("Legacy-Fantasy - High Forest 2.3\Trees\RedTreeLarge","redTree1.png")).convert_alpha()
+
+
 
 #playerXScale = infoObject.current_w//42
 #playerYScale = infoObject.current_h//28
@@ -577,7 +589,7 @@ levelHeight = infoObject.current_h+infoObject.current_h*0.1     # Screen Height 
 
 
 i = 0
-while i < ((levelWidth/tileWidth) + tileWidth):   # Adds how many ground tiles to do for ground based on screenSize.
+while i < ((levelWidth/tileWidth) + tileWidth):   # Adds how many ground tiles to do for ground based on level width.
     grndTilPos.append(tileWidth*i)
     i+=1
 
@@ -678,13 +690,19 @@ while gaming:
 
 
     
-    gameDisplay.blit(background, gameDisplayRect)
+    #gameDisplay.blit(background, gameDisplayRect)
+    for i in background:
+        gameDisplay.blit(i, gameDisplayRect)
+    
+    gameDisplay.blit(redTree, [400, 882])
     
     
     player.gravity()
     
     player.update()
     playerList.draw(gameDisplay)
+    
+    print(player.rect.bottom)
     
     #boar.update()
     
