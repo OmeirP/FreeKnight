@@ -519,6 +519,8 @@ infoObject = pygame.display.Info()
 gameDisplay=pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 #gameDisplay=pygame.display.set_mode((256, 144))
 
+
+
 #background = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest - Update 1.5/background","background.png")).convert()
 bgl1 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","1.png")).convert_alpha()
 bgl1 = pygame.transform.scale(bgl1, (infoObject.current_w, infoObject.current_h))
@@ -530,6 +532,8 @@ bgl4 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","4.png")).convert
 bgl4 = pygame.transform.scale(bgl4, (infoObject.current_w, infoObject.current_h))
 
 background = [bgl1, bgl2, bgl3, bgl4]
+
+decorFocusPoint = 100
 
 redTree = pygame.image.load(os.path.join("Legacy-Fantasy - High Forest 2.3\Trees\RedTreeLarge","redTree1.png")).convert_alpha()
 
@@ -673,6 +677,7 @@ while gaming:
             grnd.rect.x -= scrollChange
         for enemy in enemyList:
             enemy.rect.x -= scrollChange
+        decorFocusPoint -= scrollChange
     
     
     #   Scroll player and platform tiles when going foward.
@@ -686,6 +691,7 @@ while gaming:
             grnd.rect.x += scrollChange
         for enemy in enemyList:
             enemy.rect.x += scrollChange
+        decorFocusPoint += scrollChange
     
 
 
@@ -694,7 +700,7 @@ while gaming:
     for i in background:
         gameDisplay.blit(i, gameDisplayRect)
     
-    gameDisplay.blit(redTree, [400, 882])
+    gameDisplay.blit(redTree, [decorFocusPoint + 400, 882])
     
     
     player.gravity()
