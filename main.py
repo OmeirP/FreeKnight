@@ -25,11 +25,17 @@ fps = 60
 
 runFrames = 10
 playerIdleFrames = 10
+playerJumpFrames = 3
+playerFallFrames = 3
 
 boarRunFrames = 6
 
 
+
+
 gaming = True
+pause = False
+
 
 
 
@@ -104,7 +110,7 @@ class playerClass(pygame.sprite.Sprite):
         for i in range(1, 11):
             
             self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/run", "run" + str(i) + ".png")).convert_alpha()
-            self.image = pygame.transform.scale(self.image, (2*self.playerXScale, 3*self.playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+            self.image = pygame.transform.scale(self.image, (2*self.playerXScale, 3*self.playerYScale)).convert_alpha()  #2 and 3 because original canvas size is 120x80, 2 and 3 scales to screen size and keeps ratio
             self.imgsList.append(self.image)
             
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
@@ -123,15 +129,55 @@ class playerClass(pygame.sprite.Sprite):
         for i in range(1, 11):
             
             self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle", "idle" + str(i) + ".png")).convert_alpha()
-            self.image = pygame.transform.scale(self.image, (1.357142857*self.playerXScale, 2.035714286*self.playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+            self.image = pygame.transform.scale(self.image, (1.357142857*self.playerXScale, 2.035714286*self.playerYScale)).convert_alpha() # These decimal values are specific because the images have different pixel sizes to the run images and the size of the sprites must be equal. See scaleCalculations.txt for how to work out.
             self.imgsList.append(self.image)
             
-            self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
+            self.firstImg = self.imgsList[0]
             
             self.rect.width = self.firstImg.get_width()
             self.rect.height = self.firstImg.get_height()
                 
     
+    
+    def jumpAnimSwitch(self):
+        
+        self.playerXScale = infoObject.current_w//37
+        self.playerYScale = infoObject.current_h//23
+        self.imgsList = []
+        for i in range(1, 4):
+            
+            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/jump", "jump" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.transform.scale(self.image, (1.64285714291*self.playerXScale, 2.46428571436*self.playerYScale)).convert_alpha() 
+            self.imgsList.append(self.image)
+            
+            self.firstImg = self.imgsList[0]
+            
+            self.rect.width = self.firstImg.get_width()
+            self.rect.height = self.firstImg.get_height()
+    
+    
+
+
+    def fallAnimSwitch(self):
+        
+        self.playerXScale = infoObject.current_w//37
+        self.playerYScale = infoObject.current_h//27
+        self.imgsList = []
+        for i in range(1, 4):
+            
+            self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/fall", "fall" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.transform.scale(self.image, (1.92857142862*self.playerXScale, 2.89285714293*self.playerYScale)).convert_alpha() 
+            self.imgsList.append(self.image)
+            
+            self.firstImg = self.imgsList[0]
+            
+            self.rect.width = self.firstImg.get_width()
+            self.rect.height = self.firstImg.get_height()
+
+
+
+
+
     def update(self):
         
 
@@ -161,7 +207,6 @@ class playerClass(pygame.sprite.Sprite):
                 self.image = self.imgsList[self.frame//playerIdleFrames]
             elif self.direction == "left":
                 self.image = pygame.transform.flip((self.imgsList[self.frame//playerIdleFrames]), True, False)
-        print(self.direction)
         
         
         self.rect.x += self.xMove
@@ -241,11 +286,32 @@ class playerClass(pygame.sprite.Sprite):
         # The jump part, switches to falling at the end.
         if self.jumpState == True and self.fallState == False:
             self.yMove -= 20    # Change this to be proportional to screen size.
+            #Do jump - fall switch animation here.
             self.fallState = True
-            #print("done")
+            
+            
             
         #print(self.fallState, self.jumpState)
         
+        if self.yMove < 0:
+            self.jumpAnimSwitch()
+            self.frame += 1
+            if self.frame > 2*playerJumpFrames:
+                self.frame = 0
+            if self.direction == "right":
+                self.image = self.imgsList[self.frame//playerJumpFrames]
+            elif self.direction == "left":
+                self.image = pygame.transform.flip((self.imgsList[self.frame//playerJumpFrames]), True, False)
+                
+        if self.yMove > 1:
+            self.fallAnimSwitch()
+            self.frame += 1
+            if self.frame > 2*playerFallFrames:
+                self.frame = 0
+            if self.direction == "right":
+                self.image = self.imgsList[self.frame//playerFallFrames]
+            elif self.direction == "left":
+                self.image = pygame.transform.flip((self.imgsList[self.frame//playerFallFrames]), True, False)
     
         
             
@@ -457,9 +523,25 @@ infoObject = pygame.display.Info()
 gameDisplay=pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 #gameDisplay=pygame.display.set_mode((256, 144))
 
-background = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest - Update 1.5/background","background.png")).convert()
 
-background = pygame.transform.scale(background, (infoObject.current_w, infoObject.current_h))
+
+#background = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest - Update 1.5/background","background.png")).convert()
+bgl1 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","1.png")).convert_alpha()
+bgl1 = pygame.transform.scale(bgl1, (infoObject.current_w, infoObject.current_h))
+bgl2 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","2.png")).convert_alpha()
+bgl2 = pygame.transform.scale(bgl2, (infoObject.current_w, infoObject.current_h))
+bgl3 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","3.png")).convert_alpha()
+bgl3 = pygame.transform.scale(bgl3, (infoObject.current_w, infoObject.current_h))
+bgl4 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","4.png")).convert_alpha()
+bgl4 = pygame.transform.scale(bgl4, (infoObject.current_w, infoObject.current_h))
+
+background = [bgl1, bgl2, bgl3, bgl4]
+
+decorFocusPoint = 100
+
+redTree = pygame.image.load(os.path.join("Legacy-Fantasy - High Forest 2.3\Trees\RedTreeLarge","redTree1.png")).convert_alpha()
+
+
 
 #playerXScale = infoObject.current_w//42
 #playerYScale = infoObject.current_h//28
@@ -515,7 +597,7 @@ levelHeight = infoObject.current_h+infoObject.current_h*0.1     # Screen Height 
 
 
 i = 0
-while i < ((levelWidth/tileWidth) + tileWidth):   # Adds how many ground tiles to do for ground based on screenSize.
+while i < ((levelWidth/tileWidth) + tileWidth):   # Adds how many ground tiles to do for ground based on level width.
     grndTilPos.append(tileWidth*i)
     i+=1
 
@@ -525,13 +607,18 @@ pltList, startPos, platformRight = Level.platform(1, tileWidth, tileHeight)
 
 
 
+theme1 = pygame.mixer.music.load(os.path.join("sounds/themes", "level1.wav"))
+
+pygame.mixer.music.play(-1)
+
+
 ###########game loop
 
 while gaming:
     
     
-    
-    
+        
+        
     for event in pygame.event.get():
     
     
@@ -552,6 +639,8 @@ while gaming:
                     sys.exit()
                 finally:
                     gaming=False
+            if event.key == pygame.K_p:
+                pause = True
     
     
     # movement code
@@ -588,6 +677,23 @@ while gaming:
                 player.move(0, 0, "CONTROLLER")
             
     
+    while pause:
+        print("paused")
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    pause = False
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
     #   Scroll player and platform tiles when going foward.
     if player.rect.x >= fwdCamDed:
         scrollChange = player.rect.x - fwdCamDed    # Get change to move platforms.
@@ -599,6 +705,7 @@ while gaming:
             grnd.rect.x -= scrollChange
         for enemy in enemyList:
             enemy.rect.x -= scrollChange
+        decorFocusPoint -= scrollChange
     
     
     #   Scroll player and platform tiles when going foward.
@@ -612,17 +719,24 @@ while gaming:
             grnd.rect.x += scrollChange
         for enemy in enemyList:
             enemy.rect.x += scrollChange
+        decorFocusPoint += scrollChange
     
 
 
     
-    gameDisplay.blit(background, gameDisplayRect)
+    #gameDisplay.blit(background, gameDisplayRect)
+    for i in background:
+        gameDisplay.blit(i, gameDisplayRect)
+    
+    gameDisplay.blit(redTree, [decorFocusPoint + 400, 882])
     
     
     player.gravity()
     
     player.update()
     playerList.draw(gameDisplay)
+    
+    print(player.rect.bottom)
     
     #boar.update()
     
