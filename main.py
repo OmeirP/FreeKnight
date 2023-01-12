@@ -31,7 +31,11 @@ playerFallFrames = 3
 boarRunFrames = 6
 
 
+
+
 gaming = True
+pause = False
+
 
 
 
@@ -603,13 +607,18 @@ pltList, startPos, platformRight = Level.platform(1, tileWidth, tileHeight)
 
 
 
+theme1 = pygame.mixer.music.load(os.path.join("sounds/themes", "level1.wav"))
+
+pygame.mixer.music.play(-1)
+
+
 ###########game loop
 
 while gaming:
     
     
-    
-    
+        
+        
     for event in pygame.event.get():
     
     
@@ -630,6 +639,8 @@ while gaming:
                     sys.exit()
                 finally:
                     gaming=False
+            if event.key == pygame.K_p:
+                pause = True
     
     
     # movement code
@@ -665,6 +676,23 @@ while gaming:
             else:
                 player.move(0, 0, "CONTROLLER")
             
+    
+    while pause:
+        print("paused")
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_p:
+                    pause = False
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
     
     #   Scroll player and platform tiles when going foward.
     if player.rect.x >= fwdCamDed:
