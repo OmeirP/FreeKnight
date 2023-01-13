@@ -35,8 +35,8 @@ boarRunFrames = 6
 
 gaming = True
 pause = False
-
-
+pauseTime = 0
+totPlayTime = 0
 
 
 
@@ -640,7 +640,7 @@ while gaming:
                 finally:
                     gaming=False
             if event.key == pygame.K_p:
-                pauseTime = pygame.mixer.music.get_pos()
+                totPlayTime += pygame.mixer.music.get_pos()
                 pygame.mixer.music.stop()
                 pause = True
     
@@ -682,7 +682,7 @@ while gaming:
             
     if pause:
         pygame.mixer.music.load(os.path.join("sounds/themes", "level1Pause.ogg"))
-        pygame.mixer.music.play(-1, pauseTime/1000)  # Divide by 1000 as get_pos returns millisecond time. Play takes seconds.
+        pygame.mixer.music.play(-1, (totPlayTime/1000)%17.5)  # Divide by 1000 as get_pos returns millisecond time. Play takes seconds.
                 
     while pause:
 
@@ -696,11 +696,10 @@ while gaming:
 
                 if event.key == pygame.K_p:
                     pause = False
-                    resumeTime = pauseTime + pygame.mixer.music.get_pos()       # Get_pos doesn't take timestamp of file played, just how long the sound has been playing for. Need to add this time to initial time where it left off original for seamless resuming.
+                    totPlayTime += pygame.mixer.music.get_pos() # Get_pos doesn't take timestamp of file played, just how long the sound has been playing for. Keeps track of how long all themes have been playing.
                     pygame.mixer.music.stop()
-                    pygame.mixer.music.load(os.path.join("sounds/themes", "level1.ogg"))
-                    pygame.mixer.music.play(-1, resumeTime/1000)  # Divide by 1000 as get_pos returns millisecond time. Play takes seconds.
-                    
+                    pygame.mixer.music.load(os.path.join("sounds/themes", "level1.ogg"))  
+                    pygame.mixer.music.play(-1, (totPlayTime/1000)%17.5)    # Divide by 1000 as get_pos returns millisecond time. Play takes seconds. Remainder for dividing by song length so time isn't invalid after song ends and has to repeat.
     
         
     
