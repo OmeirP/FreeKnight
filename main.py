@@ -640,8 +640,7 @@ while gaming:
                 finally:
                     gaming=False
             if event.key == pygame.K_p:
-                stopTime = pygame.mixer.music.get_pos()
-                print(stopTime)
+                pauseTime = pygame.mixer.music.get_pos()
                 pygame.mixer.music.stop()
                 pause = True
     
@@ -683,17 +682,25 @@ while gaming:
             
     if pause:
         pygame.mixer.music.load(os.path.join("sounds/themes", "level1Pause.ogg"))
-        stopTime = stopTime/1000
-        pygame.mixer.music.play(-1, stopTime)
+        pygame.mixer.music.play(-1, pauseTime/1000)  # Divide by 1000 as get_pos returns millisecond time. Play takes seconds.
                 
     while pause:
 
         
-        print("paused", stopTime)
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+
+
                 if event.key == pygame.K_p:
                     pause = False
+                    resumeTime = pauseTime + pygame.mixer.music.get_pos()       # Get_pos doesn't take timestamp of file played, just how long the sound has been playing for. Need to add this time to initial time where it left off original for seamless resuming.
+                    pygame.mixer.music.stop()
+                    pygame.mixer.music.load(os.path.join("sounds/themes", "level1.ogg"))
+                    pygame.mixer.music.play(-1, resumeTime/1000)  # Divide by 1000 as get_pos returns millisecond time. Play takes seconds.
+                    
     
         
     
