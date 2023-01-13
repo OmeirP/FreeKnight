@@ -607,7 +607,7 @@ pltList, startPos, platformRight = Level.platform(1, tileWidth, tileHeight)
 
 
 
-theme1 = pygame.mixer.music.load(os.path.join("sounds/themes", "level1.wav"))
+theme1 = pygame.mixer.music.load(os.path.join("sounds/themes", "level1.ogg"))
 
 pygame.mixer.music.play(-1)
 
@@ -640,6 +640,9 @@ while gaming:
                 finally:
                     gaming=False
             if event.key == pygame.K_p:
+                stopTime = pygame.mixer.music.get_pos()
+                print(stopTime)
+                pygame.mixer.music.stop()
                 pause = True
     
     
@@ -675,19 +678,24 @@ while gaming:
                 player.move(runXChange, 0, "CONTROLLER")
             else:
                 player.move(0, 0, "CONTROLLER")
-            
     
+    
+            
+    if pause:
+        pygame.mixer.music.load(os.path.join("sounds/themes", "level1Pause.ogg"))
+        stopTime = stopTime/1000
+        pygame.mixer.music.play(-1, stopTime)
+                
     while pause:
-        print("paused")
+
+        
+        print("paused", stopTime)
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_p:
                     pause = False
     
         
-    
-    
-    
     
     
     
@@ -736,7 +744,6 @@ while gaming:
     player.update()
     playerList.draw(gameDisplay)
     
-    print(player.rect.bottom)
     
     #boar.update()
     
