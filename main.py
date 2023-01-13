@@ -35,7 +35,6 @@ boarRunFrames = 6
 
 gaming = True
 pause = False
-pauseTime = 0
 totPlayTime = 0
 
 
@@ -489,7 +488,8 @@ class Level:
         return pltList, startPos, platformRight
         
         
-
+class Menu:
+    pass
 
 
 
