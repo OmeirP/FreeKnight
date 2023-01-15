@@ -530,7 +530,7 @@ class PauseMenu(pygame.sprite.Sprite):
 def drawAll():
     for i in background:
         gameDisplay.blit(i, gameDisplayRect)
-    gameDisplay.blit(redTree, [decorFocusPoint + 400, 882])
+    gameDisplay.blit(redTree, [decorFocusPoint + 700, 882])
     enemyList.draw(gameDisplay)
     grndList.draw(gameDisplay)
     pltList.draw(gameDisplay)
@@ -799,7 +799,7 @@ while gaming:
     for i in background:
         gameDisplay.blit(i, gameDisplayRect)
     
-    gameDisplay.blit(redTree, [decorFocusPoint + 400, 882])
+    gameDisplay.blit(redTree, [decorFocusPoint + 700, 882])
     
     
     player.gravity()
