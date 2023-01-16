@@ -523,7 +523,35 @@ class PauseMenu(pygame.sprite.Sprite):
             self.rect.y = infoObject.current_h
             drawAll()
             
+
+
+def button(actvImg, inactvImg, xPos, yPos, action):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
     
+    width = infoObject.current_w*0.1
+    height = infoObject.current_h*0.1
+
+    # scale image to screen size. 
+    
+    if xPos + width > mouse[0] > xPos and yPos + height > mouse[1] > yPos:
+        image = actvImg
+        image = pygame.transform.scale(image, (width, height)).convert_alpha()
+        if click[0] == 1 and action != None:
+            
+            if action == "resume":
+                pause = False
+                totPlayTime += pygame.mixer.music.get_pos()
+                pauseScreen.descend()
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load(os.path.join("sounds/themes", "level1.ogg"))  
+                pygame.mixer.music.play(-1, (totPlayTime/1000)%17.5)
+            elif action == "exit":
+                pass
+    else:
+        image = inactvImg
+        image = pygame.transform.scale(image, (width, height)).convert_alpha()
+    gameDisplay.blit(image, [xPos, yPos])
 
 
 
@@ -537,6 +565,7 @@ def drawAll():
     playerList.draw(gameDisplay)
     screens.draw(gameDisplay)
     pygame.display.update()
+
 
 
 ##############  setup things
