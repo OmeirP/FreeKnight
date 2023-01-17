@@ -557,8 +557,10 @@ def button(actvImg, inactvImg, xPos, yPos, action):
 
 def drawAll():
     for i in background:
-        gameDisplay.blit(i, gameDisplayRect)
-    gameDisplay.blit(redTree, [decorFocusPoint + 700, 882])
+        gameDisplay.blit(i, (decorFocusPoint*0.05, infoObject.current_h))
+        gameDisplay.blit(i, (decorFocusPoint*0.05+infoObject.current_w, infoObject.current_h))
+        gameDisplay.blit(i, (decorFocusPoint*0.05-infoObject.current_w, infoObject.current_h))
+    gameDisplay.blit(redTree, [decorFocusPoint + (500)/(2560/infoObject.current_w)*1.5, (infoObject.current_h-tileHeight*3)-(360)/(1440/infoObject.current_h)*1.5])
     enemyList.draw(gameDisplay)
     grndList.draw(gameDisplay)
     pltList.draw(gameDisplay)
@@ -612,9 +614,13 @@ bgl4 = pygame.transform.scale(bgl4, (infoObject.current_w, infoObject.current_h)
 
 background = [bgl1, bgl2, bgl3, bgl4]
 
-decorFocusPoint = 100
+
+
+decorFocusPoint = 0
 
 redTree = pygame.image.load(os.path.join("Legacy-Fantasy - High Forest 2.3\Trees\RedTreeLarge","redTree1.png")).convert_alpha()
+treeRect = redTree.get_rect()
+redTree = pygame.transform.scale(redTree, ((treeRect.width/(2560/infoObject.current_w))*1.5, (treeRect.height/(1440/infoObject.current_h))*1.5))
 
 
 
@@ -823,12 +829,15 @@ while gaming:
     
 
 
-    
+    print(decorFocusPoint*0.5+infoObject.current_w)
     #gameDisplay.blit(background, gameDisplayRect)
-    for i in background:
-        gameDisplay.blit(i, gameDisplayRect)
     
-    gameDisplay.blit(redTree, [decorFocusPoint + 700, 882])
+    for i in background:
+        gameDisplay.blit(i, (decorFocusPoint*0.1, 0))
+        gameDisplay.blit(i, (decorFocusPoint*0.1+infoObject.current_w, 0))
+        gameDisplay.blit(i, (decorFocusPoint*0.1-infoObject.current_w, 0))
+    
+    gameDisplay.blit(redTree, [decorFocusPoint + (500)/(2560/infoObject.current_w)*1.5, (infoObject.current_h-tileHeight*3)-(360)/(1440/infoObject.current_h)*1.5])
     
     
     player.gravity()
