@@ -557,9 +557,7 @@ def button(actvImg, inactvImg, xPos, yPos, action):
 
 def drawAll():
     for i in background:
-        gameDisplay.blit(i, (decorFocusPoint*0.05, infoObject.current_h))
-        gameDisplay.blit(i, (decorFocusPoint*0.05+infoObject.current_w, infoObject.current_h))
-        gameDisplay.blit(i, (decorFocusPoint*0.05-infoObject.current_w, infoObject.current_h))
+        gameDisplay.blits([(i, (decorFocusPoint*0.1, 0)), (i, (decorFocusPoint*0.1+infoObject.current_w, 0)), (i, (decorFocusPoint*0.1-infoObject.current_w, 0))])
     gameDisplay.blit(redTree, [decorFocusPoint + (500)/(2560/infoObject.current_w)*1.5, (infoObject.current_h-tileHeight*3)-(360)/(1440/infoObject.current_h)*1.5])
     enemyList.draw(gameDisplay)
     grndList.draw(gameDisplay)
@@ -833,9 +831,9 @@ while gaming:
     #gameDisplay.blit(background, gameDisplayRect)
     
     for i in background:
-        gameDisplay.blit(i, (decorFocusPoint*0.1, 0))
-        gameDisplay.blit(i, (decorFocusPoint*0.1+infoObject.current_w, 0))
-        gameDisplay.blit(i, (decorFocusPoint*0.1-infoObject.current_w, 0))
+        gameDisplay.blits([(i, (decorFocusPoint*0.1, 0)), (i, (decorFocusPoint*0.1+infoObject.current_w, 0)), (i, (decorFocusPoint*0.1-infoObject.current_w, 0))])
+        """gameDisplay.blit(i, (decorFocusPoint*0.1+infoObject.current_w, 0))
+        gameDisplay.blit(i, (decorFocusPoint*0.1-infoObject.current_w, 0))"""
     
     gameDisplay.blit(redTree, [decorFocusPoint + (500)/(2560/infoObject.current_w)*1.5, (infoObject.current_h-tileHeight*3)-(360)/(1440/infoObject.current_h)*1.5])
     
@@ -864,6 +862,5 @@ while gaming:
     pygame.display.update()
     clock.tick(fps)
                 
-
 
 
