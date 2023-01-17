@@ -522,6 +522,9 @@ class PauseMenu(pygame.sprite.Sprite):
         else:
             self.rect.y = infoObject.current_h
             drawAll()
+    
+    def unpauseFunc(self):
+        pass
             
 
 
@@ -529,14 +532,16 @@ def button(actvImg, inactvImg, xPos, yPos, action):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     
-    width = infoObject.current_w*0.1
+    imgRect = actvImg.get_rect()
+    width = imgRect.width
     height = infoObject.current_h*0.1
-
+    height = imgRect.height
+    
+    
     # scale image to screen size. 
     
     if xPos + width > mouse[0] > xPos and yPos + height > mouse[1] > yPos:
         image = actvImg
-        image = pygame.transform.scale(image, (width, height)).convert_alpha()
         if click[0] == 1 and action != None:
             
             if action == "resume":
@@ -550,7 +555,9 @@ def button(actvImg, inactvImg, xPos, yPos, action):
                 pass
     else:
         image = inactvImg
-        image = pygame.transform.scale(image, (width, height)).convert_alpha()
+        #image = pygame.transform.scale(image, (width, height)).convert_alpha()
+        
+
     gameDisplay.blit(image, [xPos, yPos])
 
 
@@ -620,6 +627,10 @@ redTree = pygame.image.load(os.path.join("Legacy-Fantasy - High Forest 2.3\Trees
 treeRect = redTree.get_rect()
 redTree = pygame.transform.scale(redTree, ((treeRect.width/(2560/infoObject.current_w))*1.5, (treeRect.height/(1440/infoObject.current_h))*1.5))
 
+
+
+playBtnNorm = pygame.image.load(os.path.join("pauseAssets", "buttonRev3_normal.png")).convert_alpha()
+playBtnRoll = pygame.image.load(os.path.join("pauseAssets", "buttonRev4_rollover.png")).convert_alpha()
 
 
 #playerXScale = infoObject.current_w//42
@@ -769,12 +780,17 @@ while gaming:
         pygame.mixer.music.play(-1, (totPlayTime/1000)%17.5)  # Divide by 1000 as get_pos returns millisecond time. Play takes seconds.
         
         pauseScreen.ascend()
+        gameDisplay.blit(playBtnNorm, [400, 800])
 
             
                 
     while pause:
 
-
+        #gameDisplay.blit(playBtnNorm, [400, 800])
+        button(playBtnRoll, playBtnNorm, 400, 800, "play")
+        
+        pygame.display.update()
+        
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -789,6 +805,7 @@ while gaming:
                     pygame.mixer.music.stop()
                     pygame.mixer.music.load(os.path.join("sounds/themes", "level1.ogg"))  
                     pygame.mixer.music.play(-1, (totPlayTime/1000)%17.5)    # Divide by 1000 as get_pos returns millisecond time. Play takes seconds. Remainder for dividing by song length so time isn't invalid after song ends and has to repeat.
+
         
     
         
@@ -827,7 +844,7 @@ while gaming:
     
 
 
-    print(decorFocusPoint*0.5+infoObject.current_w)
+    #print(decorFocusPoint*0.5+infoObject.current_w)
     #gameDisplay.blit(background, gameDisplayRect)
     
     for i in background:
@@ -842,7 +859,6 @@ while gaming:
     
     player.update()
     playerList.draw(gameDisplay)
-    
     
     #boar.update()
     
