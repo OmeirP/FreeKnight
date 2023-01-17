@@ -523,8 +523,6 @@ class PauseMenu(pygame.sprite.Sprite):
             self.rect.y = infoObject.current_h
             drawAll()
     
-    def unpauseFunc(self):
-        pass
             
 
 
@@ -552,7 +550,8 @@ def button(actvImg, inactvImg, xPos, yPos, action):
                 pygame.mixer.music.load(os.path.join("sounds/themes", "level1.ogg"))  
                 pygame.mixer.music.play(-1, (totPlayTime/1000)%17.5)
             elif action == "exit":
-                pass
+                pygame.quit()
+                sys.exit()
     else:
         image = inactvImg
         #image = pygame.transform.scale(image, (width, height)).convert_alpha()
@@ -787,7 +786,7 @@ while gaming:
     while pause:
 
         #gameDisplay.blit(playBtnNorm, [400, 800])
-        button(playBtnRoll, playBtnNorm, 400, 800, "play")
+        button(playBtnRoll, playBtnNorm, 400, 800, "exit")
         
         pygame.display.update()
         
