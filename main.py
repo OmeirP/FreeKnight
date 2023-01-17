@@ -542,16 +542,11 @@ def button(actvImg, inactvImg, xPos, yPos, action):
         image = actvImg
         if click[0] == 1 and action != None:
             
-            if action == "resume":
-                pause = False
-                totPlayTime += pygame.mixer.music.get_pos()
-                pauseScreen.descend()
-                pygame.mixer.music.stop()
-                pygame.mixer.music.load(os.path.join("sounds/themes", "level1.ogg"))  
-                pygame.mixer.music.play(-1, (totPlayTime/1000)%17.5)
-            elif action == "exit":
-                pygame.quit()
-                sys.exit()
+            
+            match action:
+                case "exit":
+                    pygame.quit()
+                    sys.exit()
     else:
         image = inactvImg
         #image = pygame.transform.scale(image, (width, height)).convert_alpha()
@@ -628,8 +623,8 @@ redTree = pygame.transform.scale(redTree, ((treeRect.width/(2560/infoObject.curr
 
 
 
-playBtnNorm = pygame.image.load(os.path.join("pauseAssets", "buttonRev3_normal.png")).convert_alpha()
-playBtnRoll = pygame.image.load(os.path.join("pauseAssets", "buttonRev4_rollover.png")).convert_alpha()
+quitBtnNorm = pygame.image.load(os.path.join("pauseAssets", "buttonRev4_normal.png")).convert_alpha()
+quitBtnRoll = pygame.image.load(os.path.join("pauseAssets", "buttonRev5_rollover.png")).convert_alpha()
 
 
 #playerXScale = infoObject.current_w//42
@@ -779,14 +774,13 @@ while gaming:
         pygame.mixer.music.play(-1, (totPlayTime/1000)%17.5)  # Divide by 1000 as get_pos returns millisecond time. Play takes seconds.
         
         pauseScreen.ascend()
-        gameDisplay.blit(playBtnNorm, [400, 800])
 
             
                 
     while pause:
 
         #gameDisplay.blit(playBtnNorm, [400, 800])
-        button(playBtnRoll, playBtnNorm, 400, 800, "exit")
+        button(quitBtnRoll, quitBtnNorm, 400, 800, "exit")
         
         pygame.display.update()
         
