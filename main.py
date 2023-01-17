@@ -495,15 +495,76 @@ class PauseMenu(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.counter = 0
-        self.image = pygame.image.load(os.path.join("pause", "pauseScreen.png")).convert()
+        self.image = pygame.image.load(os.path.join("pauseAssets", "pauseScreen1.png")).convert()
         self.image = pygame.transform.scale(self.image, (infoObject.current_w, infoObject.current_h)).convert()
         self.rect = self.image.get_rect()
         self.rect.x = 0
         self.rect.y = infoObject.current_h  # Do everything relative screen as pause screen is relative to screen.
+        
+        
+    def ascend(self):
+        
+        while self.rect.y > 0:
+            self.rect.y -= 120
+            self.counter+=1
+            drawAll()
+        else:
+            self.rect.y = 0
+            drawAll()
     
+    
+    def descend(self):
+        
+        while self.rect.y < infoObject.current_h:
+            self.rect.y += 120
+            self.counter+=1
+            drawAll()
+        else:
+            self.rect.y = infoObject.current_h
+            drawAll()
+            
+
+
+def button(actvImg, inactvImg, xPos, yPos, action):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+    
+    width = infoObject.current_w*0.1
+    height = infoObject.current_h*0.1
+
+    # scale image to screen size. 
+    
+    if xPos + width > mouse[0] > xPos and yPos + height > mouse[1] > yPos:
+        image = actvImg
+        image = pygame.transform.scale(image, (width, height)).convert_alpha()
+        if click[0] == 1 and action != None:
+            
+            if action == "resume":
+                pause = False
+                totPlayTime += pygame.mixer.music.get_pos()
+                pauseScreen.descend()
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load(os.path.join("sounds/themes", "level1.ogg"))  
+                pygame.mixer.music.play(-1, (totPlayTime/1000)%17.5)
+            elif action == "exit":
+                pass
+    else:
+        image = inactvImg
+        image = pygame.transform.scale(image, (width, height)).convert_alpha()
+    gameDisplay.blit(image, [xPos, yPos])
 
 
 
+def drawAll():
+    for i in background:
+        gameDisplay.blit(i, gameDisplayRect)
+    gameDisplay.blit(redTree, [decorFocusPoint + 700, 882])
+    enemyList.draw(gameDisplay)
+    grndList.draw(gameDisplay)
+    pltList.draw(gameDisplay)
+    playerList.draw(gameDisplay)
+    screens.draw(gameDisplay)
+    pygame.display.update()
 
 
 
@@ -619,8 +680,12 @@ grndList = Level.ground(1, grndTilPos, tileWidth, tileHeight)
 
 pltList, startPos, platformRight = Level.platform(1, tileWidth, tileHeight)
 
+
+
 pauseScreen = PauseMenu()
 
+screens = pygame.sprite.Group()
+screens.add(pauseScreen)
 
 theme1 = pygame.mixer.music.load(os.path.join("sounds/themes", "level1.ogg"))
 
@@ -698,11 +763,9 @@ while gaming:
     if pause:
         pygame.mixer.music.load(os.path.join("sounds/themes", "level1Pause.ogg"))
         pygame.mixer.music.play(-1, (totPlayTime/1000)%17.5)  # Divide by 1000 as get_pos returns millisecond time. Play takes seconds.
+        
+        pauseScreen.ascend()
 
-        for i in range(infoObject.current_h//100):
-            pauseScreen.rect.y -= infoObject.current_h/100
-            gameDisplay.blit(pauseScreen.image, [0, (1440-infoObject.current_h/100)*i])
-            pygame.display.update()
             
                 
     while pause:
@@ -717,13 +780,8 @@ while gaming:
 
                 if event.key == pygame.K_p:
                     pause = False
-                    for i in range(infoObject.current_h//20):
-                        pauseScreen.rect.y += infoObject.current_h/20
-                        if i != (infoObject.current_h//20)-1:
-                            gameDisplay.fill((0,0,0))
-                        gameDisplay.blit(pauseScreen.image, [0, (infoObject.current_h/20)*i])
-                        pygame.display.update()
                     totPlayTime += pygame.mixer.music.get_pos() # Get_pos doesn't take timestamp of file played, just how long the sound has been playing for. Keeps track of how long all themes have been playing.
+                    pauseScreen.descend()
                     pygame.mixer.music.stop()
                     pygame.mixer.music.load(os.path.join("sounds/themes", "level1.ogg"))  
                     pygame.mixer.music.play(-1, (totPlayTime/1000)%17.5)    # Divide by 1000 as get_pos returns millisecond time. Play takes seconds. Remainder for dividing by song length so time isn't invalid after song ends and has to repeat.
@@ -770,7 +828,7 @@ while gaming:
     for i in background:
         gameDisplay.blit(i, gameDisplayRect)
     
-    gameDisplay.blit(redTree, [decorFocusPoint + 400, 882])
+    gameDisplay.blit(redTree, [decorFocusPoint + 700, 882])
     
     
     player.gravity()
