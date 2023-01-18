@@ -59,6 +59,7 @@ class playerClass(pygame.sprite.Sprite):
         self.yMove = 0
         self.frame = 0
         self.health = 20
+        self.lostLife = 0
         self.hitTick = 0
         self.direction = "right"
         self.jumpState = False
@@ -225,13 +226,15 @@ class playerClass(pygame.sprite.Sprite):
         dmgList = pygame.sprite.spritecollide(self, enemyList, False, pygame.sprite.collide_rect)  # False is for dokill, go on pygame doc for an explanation
         
         for enemy in dmgList:
-            if self.hitTick == 0:
+            if self.hitTick == 0 and self.health > 0:
                 self.health -= 1
-                self.hitTick = 60
+                self.hitTick = fps
                 print("self.health", self.health)
         if self.hitTick > 0:
             self.hitTick -= 1
 
+        self.lostLife = 20 - player.health
+        
         grndHitList = pygame.sprite.spritecollide(self, grndList, False)    # spritecollide returns a list of sprites in the group that intersect with the player.
         
         for grnd in grndHitList:
@@ -502,21 +505,21 @@ class Level:
 class Healthbar():
     
     def __init__(self):
-        
         self.backRect = pygame.Rect((100, 100), (400, 50))
-        self.redRect = pygame.Rect((100, 100), (300, 50))
-        self.horizontalHiliteRect = pygame.Rect((100, 100), (400, 8))
-        self.verticalHiliteRect = pygame.Rect((100, 100), (8, 50))
+        self.redRect = pygame.Rect((100, 100), (400, 50))
         self.borderRect = pygame.Rect((97, 97), (404, 55))
         
-    def drawBack(self):
+    def drawBar(self):
         pygame.draw.rect(gameDisplay, blackish, self.backRect)
         pygame.draw.rect(gameDisplay, healthRed, self.redRect)
         #pygame.draw.rect(gameDisplay, whitish, self.horizontalHiliteRect)
-        pygame.draw.polygon(gameDisplay, redishWhitish, [(100, 100), (500, 100), (500, 108), (108, 108)])
+        pygame.draw.polygon(gameDisplay, redishWhitish, [(100, 100), (499 - (player.lostLife*20), 100), (499 - (player.lostLife*20), 104), (104, 104)])
         #pygame.draw.rect(gameDisplay, darkerWhitish, self.verticalHiliteRect)
-        pygame.draw.polygon(gameDisplay, darkerRedishWhitish, [(100, 100), (100, 150), (108, 150), (108, 108)])
+        pygame.draw.polygon(gameDisplay, darkerRedishWhitish, [(100, 100), (100, 150), (104, 150), (104, 104)])
         pygame.draw.rect(gameDisplay, borderCol, self.borderRect, 3)
+
+    def update(self):
+        self.redRect = pygame.Rect((100, 100), (400 - (player.lostLife*20), 50))
         
         
         
@@ -596,7 +599,7 @@ def drawAll():
     pltList.draw(gameDisplay)
     playerList.draw(gameDisplay)
     for i in ui:
-        i.drawBack()
+        i.drawBar()
     screens.draw(gameDisplay)
     pygame.display.update()
 
@@ -903,7 +906,8 @@ while gaming:
     grndList.draw(gameDisplay)
     pltList.draw(gameDisplay)
     for i in ui:
-        i.drawBack()
+        i.drawBar()
+        i.update()
     
     
     pygame.display.update()
