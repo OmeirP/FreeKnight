@@ -59,6 +59,7 @@ class playerClass(pygame.sprite.Sprite):
         self.yMove = 0
         self.frame = 0
         self.health = 20
+        self.hitTick = 0
         self.direction = "right"
         self.jumpState = False
         self.fallState = True
@@ -79,7 +80,7 @@ class playerClass(pygame.sprite.Sprite):
     
     
     def gravity(self):
-        self.yMove += 0.6 # Player fall speed. Always be falling because gravity always active. Change 0.6 to screen size proportion.
+        self.yMove += 0.00041667*infoObject.current_h   # Player fall speed. Always be falling because gravity always active.
         
 
                 
@@ -224,9 +225,12 @@ class playerClass(pygame.sprite.Sprite):
         dmgList = pygame.sprite.spritecollide(self, enemyList, False, pygame.sprite.collide_rect)  # False is for dokill, go on pygame doc for an explanation
         
         for enemy in dmgList:
-            self.health -= 1
-            print("self.health", self.health)
-            
+            if self.hitTick == 0:
+                self.health -= 1
+                self.hitTick = 60
+                print("self.health", self.health)
+        if self.hitTick > 0:
+            self.hitTick -= 1
 
         grndHitList = pygame.sprite.spritecollide(self, grndList, False)    # spritecollide returns a list of sprites in the group that intersect with the player.
         
@@ -498,6 +502,7 @@ class Level:
 class Healthbar():
     
     def __init__(self):
+        
         self.backRect = pygame.Rect((100, 100), (400, 50))
         self.redRect = pygame.Rect((100, 100), (300, 50))
         self.horizontalHiliteRect = pygame.Rect((100, 100), (400, 8))
