@@ -15,8 +15,15 @@ import os
 
 
 red = (255, 0, 0)
-blue = (0, 255, 0)
-green = (0, 0, 255)
+healthRed = (255, 59, 59)
+borderCol = (61, 39, 0)
+blackish = (58, 64, 66)
+#whitish = (245, 245, 245)
+redishWhitish = (252, 199, 199)
+#darkerWhitish = (191, 191, 191)
+darkerRedishWhitish = (198, 145, 145)
+green = (0, 255, 0)
+blue = (0, 0, 255)
 
 alpha = ()
 
@@ -487,6 +494,25 @@ class Level:
                 
         return pltList, startPos, platformRight
         
+
+class Healthbar():
+    
+    def __init__(self):
+        self.backRect = pygame.Rect((100, 100), (400, 50))
+        self.redRect = pygame.Rect((100, 100), (300, 50))
+        self.horizontalHiliteRect = pygame.Rect((100, 100), (400, 8))
+        self.verticalHiliteRect = pygame.Rect((100, 100), (8, 50))
+        self.borderRect = pygame.Rect((97, 97), (404, 55))
+        
+    def drawBack(self):
+        pygame.draw.rect(gameDisplay, blackish, self.backRect)
+        pygame.draw.rect(gameDisplay, healthRed, self.redRect)
+        #pygame.draw.rect(gameDisplay, whitish, self.horizontalHiliteRect)
+        pygame.draw.polygon(gameDisplay, redishWhitish, [(100, 100), (500, 100), (500, 108), (108, 108)])
+        #pygame.draw.rect(gameDisplay, darkerWhitish, self.verticalHiliteRect)
+        pygame.draw.polygon(gameDisplay, darkerRedishWhitish, [(100, 100), (100, 150), (108, 150), (108, 108)])
+        pygame.draw.rect(gameDisplay, borderCol, self.borderRect, 3)
+        
         
         
         
@@ -564,6 +590,8 @@ def drawAll():
     grndList.draw(gameDisplay)
     pltList.draw(gameDisplay)
     playerList.draw(gameDisplay)
+    for i in ui:
+        i.drawBack()
     screens.draw(gameDisplay)
     pygame.display.update()
 
@@ -689,6 +717,9 @@ grndList = Level.ground(1, grndTilPos, tileWidth, tileHeight)
 
 pltList, startPos, platformRight = Level.platform(1, tileWidth, tileHeight)
 
+
+hlthbar = Healthbar()
+ui = [hlthbar]
 
 
 pauseScreen = PauseMenu()
@@ -866,6 +897,8 @@ while gaming:
     enemyList.draw(gameDisplay)
     grndList.draw(gameDisplay)
     pltList.draw(gameDisplay)
+    for i in ui:
+        i.drawBack()
     
     
     pygame.display.update()
