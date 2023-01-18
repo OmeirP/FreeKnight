@@ -780,7 +780,7 @@ while gaming:
     while pause:
 
         #gameDisplay.blit(playBtnNorm, [400, 800])
-        button(quitBtnRoll, quitBtnNorm, 400, 800, "exit")
+        button(quitBtnRoll, quitBtnNorm, infoObject.current_w*0.6, infoObject.current_h*0.7, "exit")
         
         pygame.display.update()
         
