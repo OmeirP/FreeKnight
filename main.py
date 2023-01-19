@@ -229,6 +229,7 @@ class playerClass(pygame.sprite.Sprite):
             if self.hitTick == 0 and self.health > 0:
                 self.health -= 1
                 self.hitTick = fps
+                pygame.mixer.Sound.play(hurtSnd)
                 print("self.health", self.health)
         if self.hitTick > 0:
             self.hitTick -= 1
@@ -299,7 +300,8 @@ class playerClass(pygame.sprite.Sprite):
         # The jump part, switches to falling at the end.
         if self.jumpState == True and self.fallState == False:
             self.yMove -= 20    # Change this to be proportional to screen size.
-            #Do jump - fall switch animation here.
+            #play sound here
+            pygame.mixer.Sound.play(jumpSnd)
             self.fallState = True
             
             
@@ -634,6 +636,12 @@ infoObject = pygame.display.Info()
 
 gameDisplay=pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 #gameDisplay=pygame.display.set_mode((256, 144))
+
+
+jumpSnd = pygame.mixer.Sound(os.path.join("sounds\sfx","jump1.wav"))
+jumpSnd.set_volume(0.5)
+
+hurtSnd = pygame.mixer.Sound(os.path.join("sounds\sfx", "hurt1.wav"))
 
 
 
