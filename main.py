@@ -530,7 +530,6 @@ class PauseMenu(pygame.sprite.Sprite):
     
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.counter = 0
         self.image = pygame.image.load(os.path.join("pauseAssets", "pauseScreen1.png")).convert()
         self.image = pygame.transform.scale(self.image, (infoObject.current_w, infoObject.current_h)).convert()
         self.rect = self.image.get_rect()
@@ -542,7 +541,6 @@ class PauseMenu(pygame.sprite.Sprite):
         
         while self.rect.y > 0:
             self.rect.y -= 120
-            self.counter+=1
             drawAll()
         else:
             self.rect.y = 0
@@ -553,13 +551,21 @@ class PauseMenu(pygame.sprite.Sprite):
         
         while self.rect.y < infoObject.current_h:
             self.rect.y += 120
-            self.counter+=1
             drawAll()
         else:
             self.rect.y = infoObject.current_h
             drawAll()
     
-            
+
+class settingsMenu(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        #self.image = pygame.image.load(os.path.join("pauseAssets", "pauseScreen1.png")).convert()
+        #self.image = pygame.transform.scale(self.image, (infoObject.current_w, infoObject.current_h)).convert()
+        #self.rect = self.image.get_rect()
+        #self.rect.x = 0
+        #self.rect.y = infoObject.current_h  # Do everything relative screen as pause screen is relative to screen.
+    
 
 
 def button(actvImg, inactvImg, xPos, yPos, action):
@@ -577,7 +583,7 @@ def button(actvImg, inactvImg, xPos, yPos, action):
     if xPos + width > mouse[0] > xPos and yPos + height > mouse[1] > yPos:
         image = actvImg
         if click[0] == 1 and action != None:
-            
+            pygame.mixer.Sound.play(slctSnd)
             
             match action:
                 case "exit":
@@ -643,6 +649,8 @@ jumpSnd.set_volume(0.5)
 
 hurtSnd = pygame.mixer.Sound(os.path.join("sounds\sfx", "hurt1.wav"))
 
+slctSnd = pygame.mixer.Sound(os.path.join("sounds\sfx", "select1.wav"))
+
 
 
 #background = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest - Update 1.5/background","background.png")).convert()
@@ -650,7 +658,7 @@ bgl1 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","1.png")).convert
 bgl1 = pygame.transform.scale(bgl1, (infoObject.current_w, infoObject.current_h))
 bgl2 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","2.png")).convert_alpha()
 bgl2 = pygame.transform.scale(bgl2, (infoObject.current_w, infoObject.current_h))
-bgl3 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","3.png")).convert_alpha()
+bgl3 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","3.png")).convert_alpha() 
 bgl3 = pygame.transform.scale(bgl3, (infoObject.current_w, infoObject.current_h))
 bgl4 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","4.png")).convert_alpha()
 bgl4 = pygame.transform.scale(bgl4, (infoObject.current_w, infoObject.current_h))
@@ -705,7 +713,8 @@ player.rect.y = infoObject.current_h*0.7
 playerList = pygame.sprite.Group()
 playerList.add(player)
 
-runXChange = 10
+#runXChange = 10
+runXChange = infoObject.current_w*0.00390625
 
 
 spawnPos = [1200, 1100]
