@@ -531,7 +531,7 @@ class PauseMenu(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(os.path.join("pauseAssets", "pauseScreen1.png")).convert()
-        self.image = pygame.transform.scale(self.image, (infoObject.current_w, infoObject.current_h)).convert()
+        self.image = pygame.transform.scale(self.image, (infoObject.current_w, infoObject.current_h))
         self.rect = self.image.get_rect()
         self.rect.x = 0
         self.rect.y = infoObject.current_h  # Do everything relative screen as pause screen is relative to screen.
@@ -557,15 +557,36 @@ class PauseMenu(pygame.sprite.Sprite):
             drawAll()
     
 
-class settingsMenu(pygame.sprite.Sprite):
+class SettingsMenu(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        #self.image = pygame.image.load(os.path.join("pauseAssets", "pauseScreen1.png")).convert()
-        #self.image = pygame.transform.scale(self.image, (infoObject.current_w, infoObject.current_h)).convert()
-        #self.rect = self.image.get_rect()
-        #self.rect.x = 0
-        #self.rect.y = infoObject.current_h  # Do everything relative screen as pause screen is relative to screen.
+        self.image = pygame.image.load(os.path.join("settingsAssets", "settingsScreen.png")).convert()
+        self.image = pygame.transform.scale(self.image, (infoObject.current_w, infoObject.current_h))
+        self.rect = self.image.get_rect()
+        self.rect.x = 0
+        self.rect.y = infoObject.current_h  # Do everything relative screen as pause screen is relative to screen.
     
+    
+    def ascend(self):
+            
+        while self.rect.y > 0:
+            self.rect.y -= 120
+            drawAll()
+        else:
+            self.rect.y = 0
+            drawAll()
+    
+    
+    def descend(self):
+        
+        while self.rect.y < infoObject.current_h:
+            self.rect.y += 120
+            drawAll()
+        else:
+            self.rect.y = infoObject.current_h
+            drawAll()
+    
+
 
 
 def button(actvImg, inactvImg, xPos, yPos, action):
@@ -589,6 +610,17 @@ def button(actvImg, inactvImg, xPos, yPos, action):
                 case "exit":
                     pygame.quit()
                     sys.exit()
+                case "settings":
+                    settingsScreen.ascend()
+                    while True:
+                        pygame.display.update()
+                        button(quitBtnRoll, quitBtnNorm, infoObject.current_w*0.6, infoObject.current_h*0.4, "settingsByeBye")
+                case "settingsByeBye":
+                    pass
+                    settingsScreen.descend()
+                        
+                        
+                    
     else:
         image = inactvImg
         #image = pygame.transform.scale(image, (width, height)).convert_alpha()
@@ -748,9 +780,11 @@ ui = [hlthbar]
 
 
 pauseScreen = PauseMenu()
+settingsScreen = SettingsMenu()
 
 screens = pygame.sprite.Group()
 screens.add(pauseScreen)
+screens.add(settingsScreen)
 
 theme1 = pygame.mixer.music.load(os.path.join("sounds/themes", "level1.ogg"))
 
@@ -837,6 +871,7 @@ while gaming:
 
         #gameDisplay.blit(playBtnNorm, [400, 800])
         button(quitBtnRoll, quitBtnNorm, infoObject.current_w*0.6, infoObject.current_h*0.7, "exit")
+        button(quitBtnRoll, quitBtnNorm, infoObject.current_w*0.4, infoObject.current_h*0.7, "settings")
         
         pygame.display.update()
         
