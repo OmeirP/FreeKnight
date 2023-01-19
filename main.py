@@ -513,9 +513,9 @@ class Healthbar():
         pygame.draw.rect(gameDisplay, blackish, self.backRect)
         pygame.draw.rect(gameDisplay, healthRed, self.redRect)
         #pygame.draw.rect(gameDisplay, whitish, self.horizontalHiliteRect)
-        pygame.draw.polygon(gameDisplay, redishWhitish, [(100, 100), (499 - (player.lostLife*20), 100), (499 - (player.lostLife*20), 104), (104, 104)])
+        pygame.draw.polygon(gameDisplay, redishWhitish, [(100, 100), (499 - (player.lostLife*20), 100), (499 - (player.lostLife*20), 104), (103, 103)])
         #pygame.draw.rect(gameDisplay, darkerWhitish, self.verticalHiliteRect)
-        pygame.draw.polygon(gameDisplay, darkerRedishWhitish, [(100, 100), (100, 150), (104, 150), (104, 104)])
+        pygame.draw.polygon(gameDisplay, darkerRedishWhitish, [(100, 100), (100, 150), (103, 150), (103, 103)])
         pygame.draw.rect(gameDisplay, borderCol, self.borderRect, 3)
 
     def update(self):
