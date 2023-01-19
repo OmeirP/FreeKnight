@@ -15,8 +15,15 @@ import os
 
 
 red = (255, 0, 0)
-blue = (0, 255, 0)
-green = (0, 0, 255)
+healthRed = (255, 59, 59)
+borderCol = (61, 39, 0)
+blackish = (58, 64, 66)
+#whitish = (245, 245, 245)
+redishWhitish = (252, 199, 199)
+#darkerWhitish = (191, 191, 191)
+darkerRedishWhitish = (198, 145, 145)
+green = (0, 255, 0)
+blue = (0, 0, 255)
 
 alpha = ()
 
@@ -52,6 +59,8 @@ class playerClass(pygame.sprite.Sprite):
         self.yMove = 0
         self.frame = 0
         self.health = 20
+        self.lostLife = 0
+        self.hitTick = 0
         self.direction = "right"
         self.jumpState = False
         self.fallState = True
@@ -72,7 +81,7 @@ class playerClass(pygame.sprite.Sprite):
     
     
     def gravity(self):
-        self.yMove += 0.6 # Player fall speed. Always be falling because gravity always active. Change 0.6 to screen size proportion.
+        self.yMove += 0.00041667*infoObject.current_h   # Player fall speed. Always be falling because gravity always active.
         
 
                 
@@ -217,10 +226,15 @@ class playerClass(pygame.sprite.Sprite):
         dmgList = pygame.sprite.spritecollide(self, enemyList, False, pygame.sprite.collide_rect)  # False is for dokill, go on pygame doc for an explanation
         
         for enemy in dmgList:
-            self.health -= 1
-            print("self.health", self.health)
-            
+            if self.hitTick == 0 and self.health > 0:
+                self.health -= 1
+                self.hitTick = fps
+                print("self.health", self.health)
+        if self.hitTick > 0:
+            self.hitTick -= 1
 
+        self.lostLife = 20 - player.health
+        
         grndHitList = pygame.sprite.spritecollide(self, grndList, False)    # spritecollide returns a list of sprites in the group that intersect with the player.
         
         for grnd in grndHitList:
@@ -487,6 +501,26 @@ class Level:
                 
         return pltList, startPos, platformRight
         
+
+class Healthbar():
+    
+    def __init__(self):
+        self.backRect = pygame.Rect((100, 100), (400, 50))
+        self.redRect = pygame.Rect((100, 100), (400, 50))
+        self.borderRect = pygame.Rect((97, 97), (404, 55))
+        
+    def drawBar(self):
+        pygame.draw.rect(gameDisplay, blackish, self.backRect)
+        pygame.draw.rect(gameDisplay, healthRed, self.redRect)
+        #pygame.draw.rect(gameDisplay, whitish, self.horizontalHiliteRect)
+        pygame.draw.polygon(gameDisplay, redishWhitish, [(100, 100), (499 - (player.lostLife*20), 100), (499 - (player.lostLife*20), 104), (103, 103)])
+        #pygame.draw.rect(gameDisplay, darkerWhitish, self.verticalHiliteRect)
+        pygame.draw.polygon(gameDisplay, darkerRedishWhitish, [(100, 100), (100, 150), (103, 150), (103, 103)])
+        pygame.draw.rect(gameDisplay, borderCol, self.borderRect, 3)
+
+    def update(self):
+        self.redRect = pygame.Rect((100, 100), (400 - (player.lostLife*20), 50))
+        
         
         
         
@@ -564,6 +598,8 @@ def drawAll():
     grndList.draw(gameDisplay)
     pltList.draw(gameDisplay)
     playerList.draw(gameDisplay)
+    for i in ui:
+        i.drawBar()
     screens.draw(gameDisplay)
     pygame.display.update()
 
@@ -689,6 +725,9 @@ grndList = Level.ground(1, grndTilPos, tileWidth, tileHeight)
 
 pltList, startPos, platformRight = Level.platform(1, tileWidth, tileHeight)
 
+
+hlthbar = Healthbar()
+ui = [hlthbar]
 
 
 pauseScreen = PauseMenu()
@@ -866,6 +905,9 @@ while gaming:
     enemyList.draw(gameDisplay)
     grndList.draw(gameDisplay)
     pltList.draw(gameDisplay)
+    for i in ui:
+        i.drawBar()
+        i.update()
     
     
     pygame.display.update()
