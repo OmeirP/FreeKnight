@@ -25,7 +25,7 @@ darkerRedishWhitish = (198, 145, 145)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 
-alpha = ()
+#alpha = ()
 
 
 fps = 60
@@ -227,14 +227,16 @@ class playerClass(pygame.sprite.Sprite):
         
         for enemy in dmgList:
             if self.hitTick == 0 and self.health > 0:
-                self.health -= 1
+                self.health -= 5
                 self.hitTick = fps
                 pygame.mixer.Sound.play(hurtSnd)
                 print("self.health", self.health)
         if self.hitTick > 0:
             self.hitTick -= 1
 
-        self.lostLife = 20 - player.health
+        self.lostLife = 20 - self.health
+        
+
         
         grndHitList = pygame.sprite.spritecollide(self, grndList, False)    # spritecollide returns a list of sprites in the group that intersect with the player.
         
@@ -510,17 +512,20 @@ class Healthbar():
         self.backRect = pygame.Rect((100, 100), (400, 50))
         self.redRect = pygame.Rect((100, 100), (400, 50))
         self.borderRect = pygame.Rect((97, 97), (404, 55))
+        self.noHealth = False
         
     def drawBar(self):
         pygame.draw.rect(gameDisplay, blackish, self.backRect)
         pygame.draw.rect(gameDisplay, healthRed, self.redRect)
-        #pygame.draw.rect(gameDisplay, whitish, self.horizontalHiliteRect)
-        pygame.draw.polygon(gameDisplay, redishWhitish, [(100, 100), (499 - (player.lostLife*20), 100), (499 - (player.lostLife*20), 104), (103, 103)])
-        #pygame.draw.rect(gameDisplay, darkerWhitish, self.verticalHiliteRect)
-        pygame.draw.polygon(gameDisplay, darkerRedishWhitish, [(100, 100), (100, 150), (103, 150), (103, 103)])
+        if not self.noHealth:
+            pygame.draw.polygon(gameDisplay, redishWhitish, [(100, 100), (499 - (player.lostLife*20), 100), (499 - (player.lostLife*20), 104), (103, 103)])
+            pygame.draw.polygon(gameDisplay, darkerRedishWhitish, [(100, 100), (100, 150), (103, 150), (103, 103)])
         pygame.draw.rect(gameDisplay, borderCol, self.borderRect, 3)
 
     def update(self):
+        if player.health <= 0:
+            self.noHealth = True
+            
         self.redRect = pygame.Rect((100, 100), (400 - (player.lostLife*20), 50))
         
         
@@ -585,9 +590,50 @@ class SettingsMenu(pygame.sprite.Sprite):
         else:
             self.rect.y = infoObject.current_h
             drawAll()
+
+
+def alphaBlit(gameDisplay, image, position, opacity):
+        x = position[0]
+        y = position[1]
+        temp = pygame.Surface((image.get_width(), image.get_height())).convert()
+        temp.blit(gameDisplay, (-x, -y))
+        temp.blit(image, (0, 0))
+        temp.set_alpha(opacity)        
+        gameDisplay.blit(temp, position)
+        
+
+def death():
     
-
-
+    
+    
+    opacity = 0
+    opacityChng = 4
+    alphaImage = deathScrn.copy()
+    #alphaImage.set_alpha(alpha)
+    #alphaImage.set_colorkey((255,0,255)) 
+    bin = True
+    while bin:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                bin = False
+                
+        alphaBlit(gameDisplay, alphaImage, (0,0), opacity)
+        opacity += opacityChng
+        pygame.display.update()
+        clock.tick(60)
+        """
+        alpha += alphaChange
+        #if not 0 <= alpha <= 255:
+        #    alphaChange *= -1
+        #alpha = max(0, min(alpha, 255))
+        drawAll()
+        alphaImage = deathScrn.copy()
+        print(alphaImage.get_alpha())
+        gameDisplay.blit(deathScrn, (0,0))
+        clock.tick(60)
+        print("pain")
+        """
+    
 
 def button(actvImg, inactvImg, xPos, yPos, action):
     mouse = pygame.mouse.get_pos()
@@ -682,6 +728,8 @@ jumpSnd.set_volume(0.5)
 hurtSnd = pygame.mixer.Sound(os.path.join("sounds\sfx", "hurt1.wav"))
 
 slctSnd = pygame.mixer.Sound(os.path.join("sounds\sfx", "select1.wav"))
+
+deathScrn = pygame.image.load(os.path.join("deathscreen", "youdied.png")).convert_alpha()
 
 
 
@@ -822,6 +870,8 @@ while gaming:
                 totPlayTime += pygame.mixer.music.get_pos()
                 pygame.mixer.music.stop()
                 pause = True
+            if event.key == pygame.K_j:
+                death()
     
     
     # movement code
@@ -871,7 +921,7 @@ while gaming:
 
         #gameDisplay.blit(playBtnNorm, [400, 800])
         button(quitBtnRoll, quitBtnNorm, infoObject.current_w*0.6, infoObject.current_h*0.7, "exit")
-        button(quitBtnRoll, quitBtnNorm, infoObject.current_w*0.4, infoObject.current_h*0.7, "settings")
+        #button(quitBtnRoll, quitBtnNorm, infoObject.current_w*0.4, infoObject.current_h*0.7, "settings")
         
         pygame.display.update()
         
@@ -960,7 +1010,6 @@ while gaming:
     for i in ui:
         i.drawBar()
         i.update()
-    
     
     pygame.display.update()
     clock.tick(fps)
