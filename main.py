@@ -185,7 +185,9 @@ class playerClass(pygame.sprite.Sprite):
             self.rect.height = self.firstImg.get_height()
 
 
-
+    def stillDeathAnimSwitch(self):
+        pass
+        
 
 
     def update(self):
