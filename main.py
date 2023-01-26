@@ -457,6 +457,7 @@ class Platform(pygame.sprite.Sprite):
         
 
 class Level: 
+    
     def mobSpawn(lvl, spawnPos):
         if lvl == 1:
             boar = EnemyClass(spawnPos[0], spawnPos[1])
@@ -517,6 +518,9 @@ class Level:
                 
         return pltList, startPos, platformRight
         
+        
+        
+        
 
 class Healthbar():
     
@@ -539,6 +543,8 @@ class Healthbar():
             self.noHealth = True
             
         self.redRect = pygame.Rect((100, 100), (400 - (player.lostLife*20), 50))
+        
+
         
         
         
@@ -574,6 +580,10 @@ class PauseMenu(pygame.sprite.Sprite):
             drawAll()
     
 
+
+
+
+
 class SettingsMenu(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
@@ -604,6 +614,10 @@ class SettingsMenu(pygame.sprite.Sprite):
             drawAll()
 
 
+
+
+
+
 def alphaBlit(gameDisplay, image, position, opacity):
         x = position[0]
         y = position[1]
@@ -613,6 +627,10 @@ def alphaBlit(gameDisplay, image, position, opacity):
         temp.set_alpha(opacity)        
         gameDisplay.blit(temp, position)
         
+
+
+
+
 
 def death():
     
@@ -642,6 +660,7 @@ def death():
             pygame.mixer.music.load(os.path.join("sounds/themes", "dead.wav"))
             pygame.mixer.music.play(-1)
             startPlay = True
+        
         
 
 
@@ -681,6 +700,8 @@ def button(count, actvImg, inactvImg, xPos, yPos, action):
         
 
     gameDisplay.blit(image, [xPos, yPos])
+
+
 
 
 
