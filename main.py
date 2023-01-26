@@ -65,6 +65,7 @@ class playerClass(pygame.sprite.Sprite):
         self.direction = "right"
         self.jumpState = False
         self.fallState = True
+
         
         self.playerXScale = infoObject.current_w//37
         self.playerYScale = infoObject.current_h//19
@@ -256,7 +257,6 @@ class playerClass(pygame.sprite.Sprite):
         
         
         
-        
         for plat in pltHitList:
 
             # This part same as before for ground.
@@ -270,22 +270,33 @@ class playerClass(pygame.sprite.Sprite):
                 self.fallState = False
 
             
-            elif self.rect.bottom > plat.rect.centery and (self.rect.left > startPos and self.rect.right < platformRight):     # If player is below platform (when jumping) and not outside of it.
+            elif self.rect.bottom > plat.rect.bottom and (self.rect.left > startPos and self.rect.right < platformRight):     # If player is below platform (when jumping) and not outside of it.
                 self.yMove += 0.00041667*infoObject.current_h   # Else normal fall.
         
                 
                 
             
             else:
-                if (self.rect.left < platformRight and abs(platformRight-self.rect.left) < abs(startPos-self.rect.right)) and self.rect.bottom > plat.rect.bottom:# and self.rect.centery < plat.rect.bottom:  # If player intersects with right side of platform, keep on right side of platform.
-                    self.rect.left = platformRight
-                    self.yMove += 0.00055556*infoObject.current_h
+                if (self.rect.left < platformRight and abs(platformRight-self.rect.left) < abs(startPos-self.rect.right)) and self.rect.bottom > plat.rect.bottom:  # If player intersects with right side of platform, keep on right side of platform.
+                    if abs(self.rect.top - plat.rect.bottom) < abs(platformRight-self.rect.left):
+                        self.rect.top = plat.rect.bottom + 2
+                        self.yMove += 0.00041667*infoObject.current_h
+                        
+                    else:
+                        self.rect.left = platformRight
+                        self.yMove += 0.0055556*infoObject.current_h
+                        
                     
 
-                elif (self.rect.left < platformRight and abs(platformRight-self.rect.left) > abs(startPos-self.rect.right)) and self.rect.bottom > plat.rect.bottom:# and self.rect.centery < plat.rect.bottom: # If player intersects with left side of platform, keep on left side of platform.
-                    self.rect.right = startPos
-                    self.yMove += 0.00055556*infoObject.current_h
-                    #print(self.rect.left, plat.rect.right)
+                elif (self.rect.left < platformRight and abs(platformRight-self.rect.left) > abs(startPos-self.rect.right)) and self.rect.bottom > plat.rect.bottom: # If player intersects with left side of platform, keep on left side of platform.
+                    if abs(self.rect.top - plat.rect.bottom) < abs(startPos-self.rect.right):
+                        self.rect.top = plat.rect.bottom + 2
+                        self.yMove += 0.00041667*infoObject.current_h
+                        
+                    else:
+                        self.rect.right = startPos
+                        self.yMove += 0.0055556*infoObject.current_h
+                    
                 
         
     
@@ -643,7 +654,6 @@ def button(count, actvImg, inactvImg, xPos, yPos, action):
     height = infoObject.current_h*0.1
     height = imgRect.height
     
-    print(count)
     # scale image to screen size. 
     
     if xPos + width > mouse[0] > xPos and yPos + height > mouse[1] > yPos:
@@ -729,7 +739,7 @@ slctSnd = pygame.mixer.Sound(os.path.join("sounds\sfx", "select1.wav"))
 
 deathSnd = pygame.mixer.Sound(os.path.join("sounds\sfx", "isThisDeath1.wav"))
 
-menuScrn = pygame.image.load(os.path.join("menuAssets", "menu.png"))
+menuScrn = pygame.image.load(os.path.join("menuAssets", "menuRev1.png"))
 menuScrn = pygame.transform.scale(menuScrn, (infoObject.current_w, infoObject.current_h))
 
 deathScrn = pygame.image.load(os.path.join("deathscreen", "youdied.png")).convert_alpha()
