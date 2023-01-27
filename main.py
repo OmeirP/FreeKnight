@@ -707,7 +707,7 @@ def button(count, actvImg, inactvImg, xPos, yPos, action):
 
 
 def openHelp():
-    webbrowser.open("help.txt")
+    webbrowser.open("README.txt")
     
 
 
