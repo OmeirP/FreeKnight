@@ -4,7 +4,7 @@ from turtle import right
 import pygame
 import sys
 import os
-
+import webbrowser
 
 ########## all variables will go here
 
@@ -234,7 +234,6 @@ class playerClass(pygame.sprite.Sprite):
                 self.hitTick = fps
                 #pygame.mixer.Sound.play(hurtSnd)
                 hurtSnd.play()
-                print("self.health", self.health)
         if self.hitTick > 0:
             self.hitTick -= 1
 
@@ -368,7 +367,7 @@ class EnemyClass(pygame.sprite.Sprite):
         self.imgsList = []
         for i in range(1, 7):
             
-            self.image = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest - Update 1.5/Mob/Boar/Run/SeparatePngs/boarRun", "boarRun" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.image.load(os.path.join("Legacy-Fantasy - High Forest 2.3/Mob/Boar/Run/SeparatePngs/boarRun", "boarRun" + str(i) + ".png")).convert_alpha()
             self.image = pygame.transform.scale(self.image, (3*boarXScale, 2*boarYScale)).convert_alpha()
             self.imgsList.append(self. image)
             
@@ -692,7 +691,10 @@ def button(count, actvImg, inactvImg, xPos, yPos, action):
                     pygame.quit()
                     sys.exit()
                 case "play":
+                    pygame.mixer.music.stop()
                     return True, False
+                case "help":
+                    openHelp()
                         
                         
                     
@@ -704,7 +706,9 @@ def button(count, actvImg, inactvImg, xPos, yPos, action):
     gameDisplay.blit(image, [xPos, yPos])
 
 
-
+def openHelp():
+    webbrowser.open("help.txt")
+    
 
 
 def drawAll():
@@ -762,7 +766,7 @@ slctSnd = pygame.mixer.Sound(os.path.join("sounds\sfx", "select1.wav"))
 
 deathSnd = pygame.mixer.Sound(os.path.join("sounds\sfx", "isThisDeath1.wav"))
 
-menuScrn = pygame.image.load(os.path.join("menuAssets", "menuRev1.png"))
+menuScrn = pygame.image.load(os.path.join("menuAssets", "menuRev2.png"))
 menuScrn = pygame.transform.scale(menuScrn, (infoObject.current_w, infoObject.current_h))
 
 deathScrn = pygame.image.load(os.path.join("deathscreen", "youdied.png")).convert_alpha()
@@ -770,7 +774,6 @@ deathScrn = pygame.transform.scale(deathScrn, (infoObject.current_w, infoObject.
 
 
 
-#background = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest - Update 1.5/background","background.png")).convert()
 bgl1 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","1.png")).convert_alpha()
 bgl1 = pygame.transform.scale(bgl1, (infoObject.current_w, infoObject.current_h))
 bgl2 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","2.png")).convert_alpha()
@@ -792,12 +795,34 @@ redTree = pygame.transform.scale(redTree, ((treeRect.width/(2560/infoObject.curr
 
 
 
-playBtnNorm = pygame.image.load(os.path.join("menuAssets", "playButtonNorm.png")).convert_alpha()
-playBtnRoll = pygame.image.load(os.path.join("menuAssets", "playButtonRoll.png")).convert_alpha()
+playBtnNorm = pygame.image.load(os.path.join("menuAssets", "playButtonNorm2.png")).convert_alpha()
+playBtnRoll = pygame.image.load(os.path.join("menuAssets", "playButtonRoll2.png")).convert_alpha()
+
+
+helpBtnNorm = pygame.image.load(os.path.join("menuAssets", "helpButtonNorm.png")).convert_alpha()
+helpBtnRoll = pygame.image.load(os.path.join("menuAssets", "helpButtonRoll.png")).convert_alpha()
 
 
 quitBtnNorm = pygame.image.load(os.path.join("pauseAssets", "quitButtonNorm.png")).convert_alpha()
 quitBtnRoll = pygame.image.load(os.path.join("pauseAssets", "quitButtonRoll.png")).convert_alpha()
+
+menuQuitBtnNorm = pygame.image.load(os.path.join("menuAssets", "quitButtonNorm.png")).convert_alpha()
+menuQuitBtnRoll = pygame.image.load(os.path.join("menuAssets", "quitButtonRoll.png")).convert_alpha()
+
+
+menuBtnWidth = infoObject.current_w*0.15625
+menuBtnHeight = infoObject.current_h*0.1111111111
+
+btnIntervalSpace = infoObject.current_h*0.06944444444
+
+playBtnNorm = pygame.transform.scale(playBtnNorm, (menuBtnWidth, menuBtnHeight))
+playBtnRoll = pygame.transform.scale(playBtnRoll, (menuBtnWidth, menuBtnHeight))
+
+helpBtnNorm = pygame.transform.scale(helpBtnNorm, (menuBtnWidth, menuBtnHeight))
+helpBtnRoll = pygame.transform.scale(helpBtnRoll, (menuBtnWidth, menuBtnHeight))
+
+menuQuitBtnNorm = pygame.transform.scale(menuQuitBtnNorm, (menuBtnWidth, menuBtnHeight))
+menuQuitBtnRoll = pygame.transform.scale(menuQuitBtnRoll, (menuBtnWidth, menuBtnHeight))
 
 
 #playerXScale = infoObject.current_w//42
@@ -882,6 +907,9 @@ screens.add(settingsScreen)
 ########## game intro loop
 count = 0
 
+menuTheme = pygame.mixer.music.load(os.path.join("sounds/themes", "main.ogg"))
+pygame.mixer.music.play(-1)
+
 while menu:
     
     gameDisplay.blit(menuScrn, gameDisplayRect)
@@ -901,9 +929,12 @@ while menu:
                 
     
     try:                
-        gaming, menu = button(count, playBtnRoll, playBtnNorm, infoObject.current_w*0.05, infoObject.current_h*0.05, "play")
+        gaming, menu = button(count, playBtnRoll, playBtnNorm, infoObject.current_w*0.05, infoObject.current_h*0.4, "play")
     except TypeError:
         pass
+    
+    button(count, helpBtnRoll, helpBtnNorm, infoObject.current_w*0.05, infoObject.current_h*0.4 + menuBtnHeight + btnIntervalSpace, "help")
+    button(count, menuQuitBtnRoll, menuQuitBtnNorm, infoObject.current_w*0.05, infoObject.current_h*0.4 + menuBtnHeight*2 + btnIntervalSpace*2, "exit")
     
     pygame.display.update()
     clock.tick(fps)
