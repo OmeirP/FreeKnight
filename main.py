@@ -868,10 +868,10 @@ enemyList = Level.mobSpawn(1, spawnPos)
 grndTilPos = []
 
 
-#tileWidth = 0.025*infoObject.current_w
-#tileHeight = 0.025*infoObject.current_w
-tileWidth = 64
-tileHeight = 64
+tileWidth = 0.025*infoObject.current_w
+tileHeight = 0.025*infoObject.current_w
+#tileWidth = 64
+#tileHeight = 64
 
 
 levelWidth = infoObject.current_w*10   #   Change this depending on level.
