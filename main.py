@@ -4,7 +4,7 @@ from turtle import right
 import pygame
 import sys
 import os
-
+import webbrowser
 
 ########## all variables will go here
 
@@ -25,7 +25,7 @@ darkerRedishWhitish = (198, 145, 145)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 
-alpha = ()
+#alpha = ()
 
 
 fps = 60
@@ -40,7 +40,8 @@ boarRunFrames = 6
 
 
 
-gaming = True
+#gaming = True
+menu = True
 pause = False
 totPlayTime = 0
 
@@ -64,6 +65,7 @@ class playerClass(pygame.sprite.Sprite):
         self.direction = "right"
         self.jumpState = False
         self.fallState = True
+
         
         self.playerXScale = infoObject.current_w//37
         self.playerYScale = infoObject.current_h//19
@@ -71,7 +73,7 @@ class playerClass(pygame.sprite.Sprite):
         self.imgsList = []
         for i in range(1, 11):
             self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/idle", "idle" + str(i) + ".png")).convert_alpha()
-            self.image = pygame.transform.scale(self.image, (1.357142857*self.playerXScale, 2.035714286*self.playerYScale)).convert_alpha()  #18 and 27 because original canvas size is 80x120, 18 and 27 scales to screen size and keeps ratio ##  CORRECTION. Canvas size is 120x80. I dont know why this works
+            self.image = pygame.transform.scale(self.image, (1.357142857*self.playerXScale, 2.035714286*self.playerYScale)).convert_alpha() 
             self.imgsList.append(self.image)
             
             self.firstImg = self.imgsList[0]  # just to get a picture from the cycle with the same dimensions as the rest to use to get rect
@@ -155,7 +157,7 @@ class playerClass(pygame.sprite.Sprite):
         for i in range(1, 4):
             
             self.image = pygame.image.load(os.path.join("FreeKnight_v1/Colour1/NoOutline/SeparatePngs/jump", "jump" + str(i) + ".png")).convert_alpha()
-            self.image = pygame.transform.scale(self.image, (1.64285714291*self.playerXScale, 2.46428571436*self.playerYScale)).convert_alpha() 
+            self.image = pygame.transform.scale(self.image, (1.64285714291*self.playerXScale, 2.46428571436*self.playerYScale)).convert_alpha()
             self.imgsList.append(self.image)
             
             self.firstImg = self.imgsList[0]
@@ -183,7 +185,9 @@ class playerClass(pygame.sprite.Sprite):
             self.rect.height = self.firstImg.get_height()
 
 
-
+    def stillDeathAnimSwitch(self):
+        pass
+        
 
 
     def update(self):
@@ -219,7 +223,6 @@ class playerClass(pygame.sprite.Sprite):
         
         self.rect.x += self.xMove
         self.rect.y += self.yMove
-        #print(self.rect.x, self.rect.y, self.rect.y > levelHeight)
             
         
             
@@ -227,13 +230,16 @@ class playerClass(pygame.sprite.Sprite):
         
         for enemy in dmgList:
             if self.hitTick == 0 and self.health > 0:
-                self.health -= 1
+                self.health -= 4
                 self.hitTick = fps
-                print("self.health", self.health)
+                #pygame.mixer.Sound.play(hurtSnd)
+                hurtSnd.play()
         if self.hitTick > 0:
             self.hitTick -= 1
 
-        self.lostLife = 20 - player.health
+        self.lostLife = 20 - self.health
+        
+
         
         grndHitList = pygame.sprite.spritecollide(self, grndList, False)    # spritecollide returns a list of sprites in the group that intersect with the player.
         
@@ -252,13 +258,12 @@ class playerClass(pygame.sprite.Sprite):
         
         
         
-        
         for plat in pltHitList:
 
             # This part same as before for ground.
             self.yMove = 0
             #self.jumpState = False
-            platformRight = (startPos + 64 * platsNum)
+            platformRight = (startPos + tileWidth * platsNum)
             # If player is under platform when colliding.
             if self.rect.bottom <= plat.rect.bottom:    # If the player is higher than the platform when colliding. Make player sprite sit on top of platform sprite.
                 self.rect.bottom = plat.rect.top
@@ -267,21 +272,32 @@ class playerClass(pygame.sprite.Sprite):
 
             
             elif self.rect.bottom > plat.rect.bottom and (self.rect.left > startPos and self.rect.right < platformRight):     # If player is below platform (when jumping) and not outside of it.
-                self.yMove += 0.6   # Else normal fall.
+                self.yMove += 0.00041667*infoObject.current_h   # Else normal fall.
         
                 
                 
             
             else:
                 if (self.rect.left < platformRight and abs(platformRight-self.rect.left) < abs(startPos-self.rect.right)) and self.rect.bottom > plat.rect.bottom:  # If player intersects with right side of platform, keep on right side of platform.
-                    self.rect.left = platformRight
-                    self.yMove += 8
+                    if abs(self.rect.top - plat.rect.bottom) < abs(platformRight-self.rect.left):
+                        self.rect.top = plat.rect.bottom + 2
+                        self.yMove += 0.00041667*infoObject.current_h
+                        
+                    else:
+                        self.rect.left = platformRight
+                        self.yMove += 0.0055556*infoObject.current_h
+                        
                     
 
                 elif (self.rect.left < platformRight and abs(platformRight-self.rect.left) > abs(startPos-self.rect.right)) and self.rect.bottom > plat.rect.bottom: # If player intersects with left side of platform, keep on left side of platform.
-                    self.rect.right = startPos
-                    self.yMove += 8
-                    #print(self.rect.left, plat.rect.right)
+                    if abs(self.rect.top - plat.rect.bottom) < abs(startPos-self.rect.right):
+                        self.rect.top = plat.rect.bottom + 2
+                        self.yMove += 0.00041667*infoObject.current_h
+                        
+                    else:
+                        self.rect.right = startPos
+                        self.yMove += 0.0055556*infoObject.current_h
+                    
                 
         
     
@@ -291,15 +307,16 @@ class playerClass(pygame.sprite.Sprite):
         #   Check if player fell out of bounds
         if self.rect.y > levelHeight and self.yMove > 0:
             self.health -= 5
-            print(self.health)
             self.rect.x = infoObject.current_w*0.38
             self.rect.y = infoObject.current_h-tileWidth*6  # Instead, die and go to place on screen
         
             
         # The jump part, switches to falling at the end.
         if self.jumpState == True and self.fallState == False:
-            self.yMove -= 20    # Change this to be proportional to screen size.
-            #Do jump - fall switch animation here.
+            self.yMove -= 0.0138888888888889*infoObject.current_h    # Change this to be proportional to screen size.
+            #play sound here
+            #pygame.mixer.Sound.play(jumpSnd)
+            jumpSnd.play()
             self.fallState = True
             
             
@@ -341,7 +358,7 @@ class EnemyClass(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
     
         self.frame = 0
-        self.xMove = 2
+        self.xMove = 0.0015625*infoObject.current_w
         self.yMove = 0
         self.wait = 5000
         self.direction = "right"
@@ -350,7 +367,7 @@ class EnemyClass(pygame.sprite.Sprite):
         self.imgsList = []
         for i in range(1, 7):
             
-            self.image = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest - Update 1.5/Mob/Boar/Run/SeparatePngs/boarRun", "boarRun" + str(i) + ".png")).convert_alpha()
+            self.image = pygame.image.load(os.path.join("Legacy-Fantasy - High Forest 2.3/Mob/Boar/Run/SeparatePngs/boarRun", "boarRun" + str(i) + ".png")).convert_alpha()
             self.image = pygame.transform.scale(self.image, (3*boarXScale, 2*boarYScale)).convert_alpha()
             self.imgsList.append(self. image)
             
@@ -367,7 +384,7 @@ class EnemyClass(pygame.sprite.Sprite):
     
     
     def gravity(self):
-        self.yMove += 2
+        self.yMove += 0.0013888888888889*infoObject.current_h
         
         #   Check if player fell out of bounds
         if self.rect.y > levelHeight and self.yMove > 0:
@@ -430,7 +447,7 @@ class Platform(pygame.sprite.Sprite):
     def __init__(self, xpos, ypos, imgWidth, imgHeight, imgFile):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load(os.path.join('groundpngs', imgFile)).convert_alpha()
-        self.image = pygame.transform.scale(self.image, (64,64))
+        self.image = pygame.transform.scale(self.image, (tileWidth, tileHeight))
         self.rect = self.image.get_rect()
         self.rect.x = xpos
         self.rect.y = ypos
@@ -441,6 +458,7 @@ class Platform(pygame.sprite.Sprite):
         
 
 class Level: 
+    
     def mobSpawn(lvl, spawnPos):
         if lvl == 1:
             boar = EnemyClass(spawnPos[0], spawnPos[1])
@@ -497,9 +515,12 @@ class Level:
                 platsPlaced += 1
                 
             platsNum = len(pltList.sprites())
-            platformRight = (startPos + 64 * platsNum)
+            platformRight = (startPos + tileWidth * platsNum)
                 
         return pltList, startPos, platformRight
+        
+        
+        
         
 
 class Healthbar():
@@ -508,18 +529,23 @@ class Healthbar():
         self.backRect = pygame.Rect((100, 100), (400, 50))
         self.redRect = pygame.Rect((100, 100), (400, 50))
         self.borderRect = pygame.Rect((97, 97), (404, 55))
+        self.noHealth = False
         
     def drawBar(self):
         pygame.draw.rect(gameDisplay, blackish, self.backRect)
         pygame.draw.rect(gameDisplay, healthRed, self.redRect)
-        #pygame.draw.rect(gameDisplay, whitish, self.horizontalHiliteRect)
-        pygame.draw.polygon(gameDisplay, redishWhitish, [(100, 100), (499 - (player.lostLife*20), 100), (499 - (player.lostLife*20), 104), (103, 103)])
-        #pygame.draw.rect(gameDisplay, darkerWhitish, self.verticalHiliteRect)
-        pygame.draw.polygon(gameDisplay, darkerRedishWhitish, [(100, 100), (100, 150), (103, 150), (103, 103)])
+        if not self.noHealth:
+            pygame.draw.polygon(gameDisplay, redishWhitish, [(100, 100), (499 - (player.lostLife*20), 100), (499 - (player.lostLife*20), 104), (103, 103)])
+            pygame.draw.polygon(gameDisplay, darkerRedishWhitish, [(100, 100), (100, 150), (103, 150), (103, 103)])
         pygame.draw.rect(gameDisplay, borderCol, self.borderRect, 3)
 
     def update(self):
+        if player.health <= 0:
+            self.noHealth = True
+            
         self.redRect = pygame.Rect((100, 100), (400 - (player.lostLife*20), 50))
+        
+
         
         
         
@@ -528,9 +554,8 @@ class PauseMenu(pygame.sprite.Sprite):
     
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.counter = 0
         self.image = pygame.image.load(os.path.join("pauseAssets", "pauseScreen1.png")).convert()
-        self.image = pygame.transform.scale(self.image, (infoObject.current_w, infoObject.current_h)).convert()
+        self.image = pygame.transform.scale(self.image, (infoObject.current_w, infoObject.current_h))
         self.rect = self.image.get_rect()
         self.rect.x = 0
         self.rect.y = infoObject.current_h  # Do everything relative screen as pause screen is relative to screen.
@@ -540,7 +565,6 @@ class PauseMenu(pygame.sprite.Sprite):
         
         while self.rect.y > 0:
             self.rect.y -= 120
-            self.counter+=1
             drawAll()
         else:
             self.rect.y = 0
@@ -551,24 +575,104 @@ class PauseMenu(pygame.sprite.Sprite):
         
         while self.rect.y < infoObject.current_h:
             self.rect.y += 120
-            self.counter+=1
             drawAll()
         else:
             self.rect.y = infoObject.current_h
             drawAll()
     
+
+
+
+
+
+class SettingsMenu(pygame.sprite.Sprite):
+    def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(os.path.join("settingsAssets", "settingsScreen.png")).convert()
+        self.image = pygame.transform.scale(self.image, (infoObject.current_w, infoObject.current_h))
+        self.rect = self.image.get_rect()
+        self.rect.x = 0
+        self.rect.y = infoObject.current_h  # Do everything relative screen as pause screen is relative to screen.
+    
+    
+    def ascend(self):
             
+        while self.rect.y > 0:
+            self.rect.y -= 120
+            drawAll()
+        else:
+            self.rect.y = 0
+            drawAll()
+    
+    
+    def descend(self):
+        
+        while self.rect.y < infoObject.current_h:
+            self.rect.y += 120
+            drawAll()
+        else:
+            self.rect.y = infoObject.current_h
+            drawAll()
 
 
-def button(actvImg, inactvImg, xPos, yPos, action):
+
+
+
+
+def alphaBlit(gameDisplay, image, position, opacity):
+        x = position[0]
+        y = position[1]
+        temp = pygame.Surface((image.get_width(), image.get_height())).convert()
+        temp.blit(gameDisplay, (-x, -y))
+        temp.blit(image, (0, 0))
+        temp.set_alpha(opacity)        
+        gameDisplay.blit(temp, position)
+        
+
+
+
+
+
+def death():
+    
+    deathSnd.play()
+    
+    opacity = 0
+    opacityChng = 4
+    alphaImage = deathScrn.copy()
+    #alphaImage.set_alpha(alpha)
+    #alphaImage.set_colorkey((255,0,255)) 
+    startPlay = False
+    bin = True
+    while bin:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if pygame.K_j:
+                    pygame.quit()
+                    sys.exit()
+                    
+                
+        alphaBlit(gameDisplay, alphaImage, (0,0), opacity)
+        opacity += opacityChng
+        pygame.display.update()
+        clock.tick(fps)
+        if not startPlay:
+            pygame.mixer.music.stop()
+            pygame.mixer.music.load(os.path.join("sounds/themes", "dead.wav"))
+            pygame.mixer.music.play(-1)
+            startPlay = True
+        
+        
+
+
+
+def button(count, actvImg, inactvImg, xPos, yPos, action):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
-    
     imgRect = actvImg.get_rect()
     width = imgRect.width
     height = infoObject.current_h*0.1
     height = imgRect.height
-    
     
     # scale image to screen size. 
     
@@ -576,11 +680,24 @@ def button(actvImg, inactvImg, xPos, yPos, action):
         image = actvImg
         if click[0] == 1 and action != None:
             
+            if count >= fps*0.5:
+                pygame.mixer.Sound.play(slctSnd)
+                count = 0
+            else:
+                count += 1
             
             match action:
                 case "exit":
                     pygame.quit()
                     sys.exit()
+                case "play":
+                    pygame.mixer.music.stop()
+                    return True, False
+                case "help":
+                    openHelp()
+                        
+                        
+                    
     else:
         image = inactvImg
         #image = pygame.transform.scale(image, (width, height)).convert_alpha()
@@ -588,6 +705,10 @@ def button(actvImg, inactvImg, xPos, yPos, action):
 
     gameDisplay.blit(image, [xPos, yPos])
 
+
+def openHelp():
+    webbrowser.open("README.txt")
+    
 
 
 def drawAll():
@@ -636,13 +757,28 @@ gameDisplay=pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 #gameDisplay=pygame.display.set_mode((256, 144))
 
 
+jumpSnd = pygame.mixer.Sound(os.path.join("sounds\sfx","jump1.wav"))
+jumpSnd.set_volume(0.5)
 
-#background = pygame.image.load(os.path.join("Legacy-Fantasy-VL.1 - High Forest - Update 1.5/background","background.png")).convert()
+hurtSnd = pygame.mixer.Sound(os.path.join("sounds\sfx", "hurt1.wav"))
+
+slctSnd = pygame.mixer.Sound(os.path.join("sounds\sfx", "select1.wav"))
+
+deathSnd = pygame.mixer.Sound(os.path.join("sounds\sfx", "isThisDeath1.wav"))
+
+menuScrn = pygame.image.load(os.path.join("menuAssets", "menuRev2.png"))
+menuScrn = pygame.transform.scale(menuScrn, (infoObject.current_w, infoObject.current_h))
+
+deathScrn = pygame.image.load(os.path.join("deathscreen", "youdied.png")).convert_alpha()
+deathScrn = pygame.transform.scale(deathScrn, (infoObject.current_w, infoObject.current_h))
+
+
+
 bgl1 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","1.png")).convert_alpha()
 bgl1 = pygame.transform.scale(bgl1, (infoObject.current_w, infoObject.current_h))
 bgl2 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","2.png")).convert_alpha()
 bgl2 = pygame.transform.scale(bgl2, (infoObject.current_w, infoObject.current_h))
-bgl3 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","3.png")).convert_alpha()
+bgl3 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","3.png")).convert_alpha() 
 bgl3 = pygame.transform.scale(bgl3, (infoObject.current_w, infoObject.current_h))
 bgl4 = pygame.image.load(os.path.join("skybgs\Clouds\Clouds 1","4.png")).convert_alpha()
 bgl4 = pygame.transform.scale(bgl4, (infoObject.current_w, infoObject.current_h))
@@ -659,8 +795,34 @@ redTree = pygame.transform.scale(redTree, ((treeRect.width/(2560/infoObject.curr
 
 
 
-quitBtnNorm = pygame.image.load(os.path.join("pauseAssets", "buttonRev4_normal.png")).convert_alpha()
-quitBtnRoll = pygame.image.load(os.path.join("pauseAssets", "buttonRev5_rollover.png")).convert_alpha()
+playBtnNorm = pygame.image.load(os.path.join("menuAssets", "playButtonNorm2.png")).convert_alpha()
+playBtnRoll = pygame.image.load(os.path.join("menuAssets", "playButtonRoll2.png")).convert_alpha()
+
+
+helpBtnNorm = pygame.image.load(os.path.join("menuAssets", "helpButtonNorm.png")).convert_alpha()
+helpBtnRoll = pygame.image.load(os.path.join("menuAssets", "helpButtonRoll.png")).convert_alpha()
+
+
+quitBtnNorm = pygame.image.load(os.path.join("pauseAssets", "quitButtonNorm.png")).convert_alpha()
+quitBtnRoll = pygame.image.load(os.path.join("pauseAssets", "quitButtonRoll.png")).convert_alpha()
+
+menuQuitBtnNorm = pygame.image.load(os.path.join("menuAssets", "quitButtonNorm.png")).convert_alpha()
+menuQuitBtnRoll = pygame.image.load(os.path.join("menuAssets", "quitButtonRoll.png")).convert_alpha()
+
+
+menuBtnWidth = infoObject.current_w*0.15625
+menuBtnHeight = infoObject.current_h*0.1111111111
+
+btnIntervalSpace = infoObject.current_h*0.06944444444
+
+playBtnNorm = pygame.transform.scale(playBtnNorm, (menuBtnWidth, menuBtnHeight))
+playBtnRoll = pygame.transform.scale(playBtnRoll, (menuBtnWidth, menuBtnHeight))
+
+helpBtnNorm = pygame.transform.scale(helpBtnNorm, (menuBtnWidth, menuBtnHeight))
+helpBtnRoll = pygame.transform.scale(helpBtnRoll, (menuBtnWidth, menuBtnHeight))
+
+menuQuitBtnNorm = pygame.transform.scale(menuQuitBtnNorm, (menuBtnWidth, menuBtnHeight))
+menuQuitBtnRoll = pygame.transform.scale(menuQuitBtnRoll, (menuBtnWidth, menuBtnHeight))
 
 
 #playerXScale = infoObject.current_w//42
@@ -684,11 +846,6 @@ bkwdCamDed = infoObject.current_w * 0.1
 
 player = playerClass()
 
-#player.rect.x = 200
-#player.rect.y = 1000
-
-# player.rect.x = infoObject.current_w*0.08
-# player.rect.y = infoObject.current_h*0.6
 
 
 player.rect.x = infoObject.current_w*0.2
@@ -697,7 +854,8 @@ player.rect.y = infoObject.current_h*0.7
 playerList = pygame.sprite.Group()
 playerList.add(player)
 
-runXChange = 10
+#runXChange = 10
+runXChange = infoObject.current_w*0.00390625
 
 
 spawnPos = [1200, 1100]
@@ -708,8 +866,12 @@ enemyList = Level.mobSpawn(1, spawnPos)
 
 
 grndTilPos = []
-tileWidth = 64
-tileHeight = 64
+
+
+tileWidth = 0.025*infoObject.current_w
+tileHeight = 0.025*infoObject.current_w
+#tileWidth = 64
+#tileHeight = 64
 
 
 levelWidth = infoObject.current_w*10   #   Change this depending on level.
@@ -731,16 +893,63 @@ ui = [hlthbar]
 
 
 pauseScreen = PauseMenu()
+settingsScreen = SettingsMenu()
 
 screens = pygame.sprite.Group()
 screens.add(pauseScreen)
+screens.add(settingsScreen)
+
+
+
+
+
+
+########## game intro loop
+count = 0
+
+menuTheme = pygame.mixer.music.load(os.path.join("sounds/themes", "main.ogg"))
+pygame.mixer.music.play(-1)
+
+while menu:
+    
+    gameDisplay.blit(menuScrn, gameDisplayRect)
+    
+    
+    
+    for event in pygame.event.get():
+    
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+            
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+                
+    
+    try:                
+        gaming, menu = button(count, playBtnRoll, playBtnNorm, infoObject.current_w*0.05, infoObject.current_h*0.4, "play")
+    except TypeError:
+        pass
+    
+    button(count, helpBtnRoll, helpBtnNorm, infoObject.current_w*0.05, infoObject.current_h*0.4 + menuBtnHeight + btnIntervalSpace, "help")
+    button(count, menuQuitBtnRoll, menuQuitBtnNorm, infoObject.current_w*0.05, infoObject.current_h*0.4 + menuBtnHeight*2 + btnIntervalSpace*2, "exit")
+    
+    pygame.display.update()
+    clock.tick(fps)
+
+
+
+
+
+
+
+###########game loop
 
 theme1 = pygame.mixer.music.load(os.path.join("sounds/themes", "level1.ogg"))
 
 pygame.mixer.music.play(-1)
-
-
-###########game loop
 
 while gaming:
     
@@ -771,6 +980,8 @@ while gaming:
                 totPlayTime += pygame.mixer.music.get_pos()
                 pygame.mixer.music.stop()
                 pause = True
+            #if event.key == pygame.K_j:
+            #    death()
     
     
     # movement code
@@ -797,10 +1008,8 @@ while gaming:
         
         if event.type == pygame.JOYAXISMOTION:
             xAxisPos = xController.get_axis(0)
-            #print(xController.get_axis(1))
             if xAxisPos < -0.3:
                 player.move(-runXChange, 0, "CONTROLLER")
-                print("keep moving")
             elif xAxisPos > 0.3:
                 player.move(runXChange, 0, "CONTROLLER")
             else:
@@ -811,15 +1020,16 @@ while gaming:
     if pause:
         pygame.mixer.music.load(os.path.join("sounds/themes", "level1Pause.ogg"))
         pygame.mixer.music.play(-1, (totPlayTime/1000)%17.5)  # Divide by 1000 as get_pos returns millisecond time. Play takes seconds.
-        
+        count = 0
         pauseScreen.ascend()
 
-            
+    
                 
     while pause:
 
         #gameDisplay.blit(playBtnNorm, [400, 800])
-        button(quitBtnRoll, quitBtnNorm, infoObject.current_w*0.6, infoObject.current_h*0.7, "exit")
+        button(count, quitBtnRoll, quitBtnNorm, infoObject.current_w*0.6, infoObject.current_h*0.7, "exit")
+        #button(quitBtnRoll, quitBtnNorm, infoObject.current_w*0.4, infoObject.current_h*0.7, "settings")
         
         pygame.display.update()
         
@@ -841,7 +1051,6 @@ while gaming:
         
     
         
-    
     
     
     
@@ -876,11 +1085,9 @@ while gaming:
     
 
 
-    #print(decorFocusPoint*0.5+infoObject.current_w)
-    #gameDisplay.blit(background, gameDisplayRect)
     
     for i in background:
-        gameDisplay.blits([(i, (decorFocusPoint*0.1, 0)), (i, (decorFocusPoint*0.1+infoObject.current_w, 0)), (i, (decorFocusPoint*0.1-infoObject.current_w, 0))])
+        gameDisplay.blits([(i, (decorFocusPoint*0.1, 0)), (i, (decorFocusPoint*0.1+infoObject.current_w, 0)), (i, (decorFocusPoint*0.1+infoObject.current_w*2, 0)), (i, (decorFocusPoint*0.1+infoObject.current_w, 0)), (i, (decorFocusPoint*0.1-infoObject.current_w, 0))])
         """gameDisplay.blit(i, (decorFocusPoint*0.1+infoObject.current_w, 0))
         gameDisplay.blit(i, (decorFocusPoint*0.1-infoObject.current_w, 0))"""
     
@@ -892,6 +1099,8 @@ while gaming:
     player.update()
     playerList.draw(gameDisplay)
     
+    if player.health <= 0:
+        death()
     #boar.update()
     
     
@@ -909,9 +1118,7 @@ while gaming:
         i.drawBar()
         i.update()
     
-    
     pygame.display.update()
     clock.tick(fps)
-                
-
+                    
 
